@@ -66,11 +66,11 @@ jqTime
 Пример вывода:
 
 	$('#element').curTime({
-		sepor: ":",
+		sepor: ':',
 		wrap: true,
 		utc: 0,
 		format: false,
-		exp: "hh:MM:ss"
+		exp: 'hh:MM:ss'
 	});
 
 Функция IntervalTime
