@@ -1,8 +1,8 @@
 // Plugin NimTime. Printing current time in selector.
 // Autor Ivanushkin Nikolay (Nim579). Sorced 29.04.2011
-// Site http://nim579.ru
-// Documentation - http://nim579.ru/html/jqtime.html
-// Version 2.0 (04.07.2012)
+// Promo http://nim579.ru/promo/jqtime.html
+// Documentation - http://nim579.ru/html/jqtime.html (http://nim579.ru/dev/jqtime.html)
+// Version 2.0b (17.07.2012)
 
 $.fn.curTime = function(options) {
 	var options = $.extend({
