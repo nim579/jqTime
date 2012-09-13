@@ -1,4 +1,4 @@
-// Plugin NimTime. Printing current time in selector.
+// Plugin jqTime. Printing current time in selector.
 // Autor Ivanushkin Nikolay (Nim579). Sorced 29.04.2011
 // Promo http://nim579.ru/promo/jqtime.html
 // Documentation - http://nim579.ru/html/jqtime.html (http://nim579.ru/dev/jqtime.html)
@@ -6,11 +6,11 @@
 
 $.fn.curTime = function(options) {
 	var options = $.extend({
-				sepor : ':',
-				wrap : false,
-				utc : 'real',
-				template : 'hms',
-				format : false,
+				sepor: ':',
+				wrap: false,
+				format: true,
+				utc: 'real',
+				template: 'hms',
 				exp: null
 			}, options);
 	var elements = this;
@@ -18,7 +18,6 @@ $.fn.curTime = function(options) {
 	var today = new Date();
 	var i = 3600 * today.getHours() + 60 * today.getMinutes() + today.getSeconds();
 	if(options.utc != 'real'){i += eval(today.getTimezoneOffset()*60 + options.utc*3600)}
-//	var i = 3600 * 23 + 60 * 59 + 50;
 
 	setInterval(function() {
 		i++;
@@ -29,33 +28,38 @@ $.fn.curTime = function(options) {
 		hou = Math.floor(w / 3600);
 		min = Math.floor((w - hou * 3600) / 60);
 		sec = Math.floor(w - hou * 3600 - min * 60);
-		if(options.exp != null){var return_str = jqTimeProc.exp_to_time(options.exp)}else{var return_str = jqTimeProc.returnString(options.template, options.sepor, jqTimeProc.formater(hou), jqTimeProc.formater(min), jqTimeProc.formater(sec))}
+		if(options.format){
+            hou = jqTimeProc.formater(hou);
+            min = jqTimeProc.formater(min);
+            sec = jqTimeProc.formater(sec);
+        }
+        if(options.exp != null){var return_str = jqTimeProc.exp_to_time(options.exp)}else{var return_str = jqTimeProc.returnString(options.template, options.sepor, hou, min, sec)}
 		$(elements).text(return_str);
-		i = jqTimeProc.updater(i);
+		i = jqTimeProc.updater(i, options.utc);
 	}, 1000);
 };
 
-jQuery.fn.IntervalTimer = function(options) {
+jQuery.fn.intervalTimer = function(options) {
 	var options = jQuery.extend({
-				sepor : ':',
-				wrap : true,
-				format : true,
-				template : 'hms',
-				timeFrom : '',
-				timeTo : '',
-				alt : ''
+				sepor: ':',
+				wrap: true,
+				format: true,
+				utc: 'real',
+				template: 'hms',
+				exp: '',
+				timeFrom: '',
+				timeTo: '',
+				alt: ''
 			}, options);
 	var elements = this;
 
 	var today = new Date();
 	var i = 3600 * today.getHours() + 60 * today.getMinutes() + today.getSeconds();
-	if(options.utc != 'real'){w += eval(today.getTimezoneOffset()*60 + options.utc*3600)}
-//	var i = 3600 * 23 + 60 * 59 + 50;
+	if(options.utc != 'real'){i += eval(today.getTimezoneOffset()*60 + options.utc*3600)}
 	
 	var iFrom = jqTimeProc.sting_to_time(options.timeFrom);
 	var iTo = jqTimeProc.sting_to_time(options.timeTo);
-//	iFrom = Number(iFrom[0]) * 3600 + Number(iFrom[1]) * 60 + Number(iFrom[2])
-//	iTo = Number(iTo[0]) * 3600 + Number(iTo[1]) * 60 + Number(iTo[2])
+	
 	var c = i;
 	setInterval(function() {
 		i++;
@@ -89,15 +93,15 @@ jQuery.fn.IntervalTimer = function(options) {
 		} else {
 			$(elements).html(options.alt);
 		}
-		i = jqTimeProc.updater(i);
+		i = jqTimeProc.updater(i, options.utc);
 	}, 1000)
 };
 
-jQuery.fn.TimerToggler = function(options) {
+jQuery.fn.timeToggler = function(options) {
 	var options = $.extend({
-				timeFrom : '',
-				timeTo : '',
-				inInterval : null,
+				timeFrom: '',
+				timeTo: '',
+				inInterval: null,
 				outInterval: null,
 				utc: 'real'
 			}, options);
@@ -108,12 +112,9 @@ jQuery.fn.TimerToggler = function(options) {
 	var today = new Date();
 	var i = 3600 * today.getHours() + 60 * today.getMinutes() + today.getSeconds();
 	if(options.utc != 'real'){i += eval(today.getTimezoneOffset()*60 + options.utc*3600)}
-//	var w = 3600 * 0 + 60 * 0 + 10;
 	
 	var iFrom = jqTimeProc.sting_to_time(options.timeFrom);
 	var iTo = jqTimeProc.sting_to_time(options.timeTo);
-//	iFrom = Number(iFrom[0]) * 3600 + Number(iFrom[1]) * 60 + Number(iFrom[2])
-//	iTo = Number(iTo[0]) * 3600 + Number(iTo[1]) * 60 + Number(iTo[2])
 	
 	setInterval(function() {
 				i++
@@ -123,7 +124,7 @@ jQuery.fn.TimerToggler = function(options) {
 						if ((i >= iFrom && i <= 86400) || (i >= 0 && i < iTo)) {var inInterval_flag = true} else {var inInterval_flag = false}
 					}
 					ev_listener(inInterval_flag);
-					i = jqTimeProc.updater(i);
+					i = jqTimeProc.updater(i, options.utc);
 			}, 1000);
 	var o_ev = null;
 	function ev_listener(ev){
@@ -168,14 +169,13 @@ var jqTimeProc = {
 		}
 		return f_c;
 	},
-	updater: function (var_i) {
+	updater: function (var_iб, utc) {
 		if (var_i % 300 == 0) {
 			var today = new Date();
-			return 3600 * today.getHours() + 60 * today.getMinutes()
-					+ today.getSeconds();
-		} else {
-			return var_i
+			var_i = 3600 * today.getHours() + 60 * today.getMinutes() + today.getSeconds();
+			if(utc != 'real'){var_i += eval(today.getTimezoneOffset()*60 + utc*3600)}
 		}
+		return var_i;
 	},
 	sting_to_time: function (str) {
 		str = str.split(':');
@@ -185,7 +185,7 @@ var jqTimeProc = {
 			time += Number(str[i]) * Math.pow(60, v);
 			v--;
 		}
-		return time
+		return time;
 	},
 	exp_to_time: function (str) {
 		var str = str.replace(/([h]+)/g, hou);
