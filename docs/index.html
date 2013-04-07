@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>jqTime — плагин для jQuery</title>
+
+        <link type="text/css" rel="StyleSheet" href="../material/bootstrap/css/bootstrap.css" />
+        <link type="text/css" rel="StyleSheet" href="../material/bootstrap/css/bootstrap-responsive.css" />
+
+        <link href="../material/bootstrap/css/customize.css" rel="stylesheet">
+        <script type="text/javascript" src="http://yandex.st/jquery/1.8.1/jquery.min.js"></script>
+        <script type="text/javascript" src="../material/bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript">
+            $(function(){
+                $('.nav-list').scrollspy();
+                $('[data-spy="scroll"]').each(function () {
+                    var $spy = $(this).scrollspy('refresh')
+                });
+                $('.bs-docs-sidenav').affix({
+                    offset: {
+                        top: 160,
+                        bottom: 160
+                    }
+                }) 
+            });
+        </script>
+    </head>
+    <body data-spy="scroll" data-target=".nav-list">
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <a href="/jqTime/"><img src="../material/logo.png" alt="jqTuery"></a>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                
+                <!-- left nav -->
+                <nav>
+                    <div class="span3 bs-docs-sidebar">
+                        <ul class="nav nav-list bs-docs-sidenav" id="">
+                            <li class="active"><a href="#func"><i class="icon-chevron-right"></i> Функции и их описание</a></li>
+                            <li><a href="/jqTime/docs/demos.html"><i class="icon-chevron-right"></i> Демо страница</a></li>
+                            <li><a href="#tech"><i class="icon-chevron-right"></i> Технические требования</a></li>
+                            <li><a href="#gopt"><i class="icon-chevron-right"></i> Общие свойства функций</a></li>
+
+                            <li><a href="#cT"><i class="icon-chevron-right"></i> Мод current</a></li>
+                            <li><a href="#tI"><i class="icon-chevron-right"></i> Мод interval</a></li>
+                            <li><a href="#tT"><i class="icon-chevron-right"></i> Мод toggler</a></li>
+                            <li><a href="#gFunc"><i class="icon-chevron-right"></i> Вспомогательные функции</a></li>
+                            <li><a href="#gBuild"><i class="icon-chevron-right"></i> Тестирование и сборка</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                
+                <div class="span9" data-spy="scroll">
+                    <div class="page-header">
+                        <h1>jqTime <span class="badge badge-success">2.2</span></h1>
+                        <p>&mdash;&nbsp;это jQuery плагин, выводящий время на&nbsp;экран. Плагин содержит в&nbsp;себе множество гибких настроек.</p>
+                        <div class="alert">
+                            <strong>Внимание!</strong> Начиная с версии 2.2.0 плагин не совместим с предыдущими версиями. Обновите свои скрипты в&nbsp;соответствии с&nbsp;новой документацией. Там нет ничего сложного.
+                        </div>
+                    </div>
+                    <p class="lead"><a href="/jqTime/docs/demos.html">Посмотреть</a> демо</p>
+                    <section id="func">
+                        <div class="page-header">
+                            <h2>Функции и&nbsp;их&nbsp;описание</h2>
+                        </div>
+
+                        <p>
+                            Плагин содержит в&nbsp;себе 3&nbsp;мода <code>current</code>, <code>interval</code>, <code>toggler</code>.
+                        </p>
+                        <h3>current</h3>
+                        <ul>
+                            <li>Выводит текущее время в заданный селектор</li>
+                            <li>Выводит время в обратном порядке (время до окнца дня)</li>
+                        </ul>
+                        <h3>interval</h3>
+                        <ul>
+                            <li>Показывает время в заданном селекторе в заданный промежуток времени</li>
+                            <li>Показывает оставшееся время до заданного времени, начиная с заданого времени</li>
+                            <li>Вне промежутка время не показывается, показывается альтернативный текст (или HTML), или показывается изначальное содержимое</li>
+                        </ul>
+                        <h3>toggler</h3>
+                        <ul>
+                            <li>Показывает заданный селектор в&nbsp;заданный промежуток времени</li>
+                            <li>Вне промежутка времени скрывает, или показывает альтернативный текст (или HTML)</li>
+                            <li>Может выполнять функции при изменении состояния, и высылать события</li>
+                        </ul>
+                    </section>
+                    <section id="tech">
+                        <div class="page-header">
+                            <h2>Технические требования и&nbsp;примеры вывода</h2>
+                        </div>
+
+                        <p>Для работы плагина требуется подключение <a href="//jquery.com">jQuery</a>. Плагин тестировался на&nbsp;версии 1.7.2, но&nbsp;должен поддерживаться вплоть до&nbsp;1.4.*.</p>
+                        
+                        <pre>$(selector).jqTime(mode, [options], [custom_time]);</pre>
+                        
+                        <h3>Примеры кода</h3>
+                        
+                        <pre>$('#element1').jqTime('current');</pre>
+                        <p>Вставляет текущее время в элемент с <code>id="element1"</code></p>
+                        
+                        <pre>$('#element2').jqTime('interval', {from: '10:00:01', to: '11:00:00'});</pre>
+                        <p>Будет показывать текущее время с <strong>10:00:01</strong> до <strong>11</strong> часов в элемент с <code>id="element2"</code></p>
+    
+                        <pre>$('#element3').jqTime('toggler', {from: '10:00:01', to: '11:00:00'});</pre>
+                        <p>Будет показывать заданный элемент с <strong>10:00:01</strong> до <strong>11</strong> часов</p>
+    
+                    </section>
+                    <section id="gopt">
+                        <div class="page-header">
+                            <h2>Общие свойства функций</h2>
+                        </div>
+                        
+                        <p>В плагине работает система подсчета времени, время обновляется раз в 5 минут.</code></p>
+                        
+                        <p>В&nbsp;функциях выводящих время, используется форматировщик выводящегося времени по&nbsp;регулярному выражению.
+                            Он&nbsp;ищет в&nbsp;выражении буквы <strong>H</strong>, <strong>M</strong>, <strong>S</strong>, <strong>h</strong>, <strong>m</strong>, <strong>s</strong>.
+                            Если буква прописная, то&nbsp;время будет форматироваться (к&nbsp;числам добавится&nbsp;0, если они меньше 10).<br>
+                            Например: <code>h:M:S</code> &mdash; выведет <strong>9:01:01</strong>, а <code>H:M.S</code> &mdash; выведет <strong>09:01.01</strong>
+                        </p>
+
+                        <p>Все функции могут работать в&nbsp;часовом поясе пользователя зашедшего на&nbsp;сайт, или в&nbsp;заданом часовом поясе UTC <nobr>(&plusmn;0&ndash;12).</nobr></p>
+                        
+                        <p>Можно указать третьим параметром любое время (в фотмате Date, или валидной строкой, которое поддерживает javascript класс Date), и плагин будет считать время от указаного:</p>
+                        <pre>$('element').jqTime('current', {}, new Date());</pre>
+    
+                    </section>
+                    <section id="cT">
+                        <div class="page-header">
+                            <h2>Мод current</h2>
+                        </div>
+                        <p>Выводит текущее время, или время оставшееся до конца дня в заданный селектор.</p>
+                        <h3>Опции</h3>
+                        <dl class="dl-horizontal">
+                            
+                            <dt>wrap</dt>
+                            <dd><span class="label label-info">boolean</span> Если <code>true</code>, отсчитывает время в обратную сторону (до конца дня). По умолчанию <code>false</code>.</dd>
+                            
+                            <dt>sepor</dt>
+                            <dd><span class="label label-info">string</span> Задает символ, которым разделяется время, например, если задан <code>":"</code>, выдает время <strong>00:00:00</strong>. По умолчанию <code>":"</code>.</dd>
+                            
+                            <dt>utc</dt>
+                            <dd><span class="label label-info">numetic</span> Выводит время в любом часовом поясе <abbr title="Всемирное координированное время">UTC</abbr> Если установлено значение <code>"real"</code> — будет выводить текуще время на машине пользователя. По умолчанию <code>"real"</code>.</dd>
+                            
+                            <dt>format</dt>
+                            <dd><span class="label label-info">boolean</span> Если установлено значение <code>true</code>, то добавляется 0 к времени, если оно меньше 10, например: <strong>09</strong>. При <code>false</code> число будет обображаться без 0, например: <strong>9</strong>. По умолчанию <code>true</code>.</dd>
+                            
+                            <dt>exp</dt>
+                            <dd><span class="label label-info">RegExp</span> Если не <code>null</code>, отменяет опции <code>sepor</code> и <code>format</code>, и выводит время в соответствии с заданным регулярным выражением. По умолчанию <code>null</code>. Подробнее описано в главе <a href="#tech">&laquo;Технические требования и примеры вывода&raquo;</a></dd>
+                            
+                        </dl>
+                        <h3>Пример</h3>
+                        <pre>$('#element').jqTime('current', {
+    sepor: ':',
+    wrap: true,
+    utc: 0,
+    format: false,
+    exp: 'hh:MM:ss'
+});</pre>
+                    </section>
+                    <section id="tI">
+                        <div class="page-header">
+                            <h2>Мод interval</h2>
+                        </div>
+                        <p>Показывает время в заданном селекторе в заданный промежуток времени, или время, оставшееся до заданого.</p>
+                        <h3>Опции</h3>
+                        <dl class="dl-horizontal">
+                            
+                            <dt>wrap</dt>
+                            <dd><span class="label label-info">boolean</span> Если <code>true</code>, отсчитывает время до <code>timeTo</code>. По умолчанию <code>false</code>.</dd>
+                            
+                            <dt>sepor</dt>
+                            <dd><span class="label label-info">string</span> Задает символ, которым разделяется время, например, если задан <code>":"</code>, выдает время <strong>00:00:00</strong>. По умолчанию <code>":"</code>.</dd>
+                            
+                            <dt>utc</dt>
+                            <dd><span class="label label-info">numetic</span> Выводит таймер в любом часовом поясе <abbr title="Всемирное координированное время">UTC</abbr> Если установлено значение <code>"real"</code> &mdash; таймер будет работать со временем на машине пользователя. По умолчанию <code>"real"</code>.</dd>
+                            
+                            <dt>format</dt>
+                            <dd><span class="label label-info">boolean</span> Если установлено значение <code>true</code>, то добавляется 0 к времени, если оно меньше 10, например: <strong>09</strong>. При <code>false</code> число будет обображаться без 0, например: <strong>9</strong>. По умолчанию <code>true</code>.</dd>
+                            
+                            <dt>exp</dt>
+                            <dd><span class="label label-info">RegExp</span> Если не <code>null</code>, отменяет опции <code>sepor</code> и <code>format</code>, и выводит время в соответствии с заданным регулярным выражением. По умолчанию <code>null</code>. Подробнее описано в главе <a href="#tech">&laquo;Технические требования и примеры вывода&raquo;</a></dd>
+                            
+                            <dt>timeFrom</dt>
+                            <dd><span class="label label-info">hh:mm:ss</span> Задает время, с которого будет включаться таймер. Используется строка по шаблону <code>"0:0:0"</code>. Параметр обязателен, по умолчанию ничего не задано.</dd>
+
+                            <dt>timeTo</dt>
+                            <dd><span class="label label-info">hh:mm:ss</span> Задает время, до которого будет работать таймер. Используется строка по шаблону <code>"0:0:0"</code>. Параметр обязателен, по умолчанию ничего не задано.</dd>
+
+                            <dt>alt</dt>
+                            <dd><span class="label label-info">string, html</span> Выведет текст или HTML вне промежутка времени <strong>timeFrom &ndash; timeTo</strong>. Если <code>null</code>, покажет изначальное содержимое. По умолчанию <code>null</code>.</dd>
+                            
+                        </dl>
+                        <h3>Пример</h3>
+                        <pre>$('#element2').jqTime('interval', {
+    utc: +4,
+    timeFrom: '0:0:0',
+    timeTo: '12:0:0',
+    alt: '<span>Вне промежутка</span>',
+    exp: 'hh:MM:ss'
+});</pre>
+                    </section>
+                    <section id="tT">
+                        <div class="page-header">
+                            <h2>Мод toggler</h2>
+                        </div>
+                        <p>Показывает заданный селектор в заданный промежуток времени.</p>
+                        <h3>Опции</h3>
+                        <dl class="dl-horizontal">
+                            
+                            <dt>utc</dt>
+                            <dd><span class="label label-info">numetic</span> Считает в любом часовом поясе  <abbr title="Всемирное координированное время">UTC</abbr> Если установлено значение <code>"real"</code> &mdash; будет считать относительно времени на машине пользователя. По умолчанию <code>"real"</code>.</dd>
+                            
+                            <dt>timeFrom</dt>
+                            <dd><span class="label label-info">hh:mm:ss</span> Задает время, с которого будет включаться таймер. Используется строка по шаблону <code>"0:0:0"</code>. Параметр обязателен, по умолчанию ничего не задано.</dd>
+
+                            <dt>timeTo</dt>
+                            <dd><span class="label label-info">hh:mm:ss</span> Задает время, до которого будет работать таймер. Используется строка по шаблону <code>"0:0:0"</code>. Параметр обязателен, по умолчанию ничего не задано.</dd>
+
+                            <dt>inInterval</dt>
+                            <dd><span class="label label-info">string, html</span>&nbsp;<span class="label label-info">fn</span> Выведет текст или HTML в промежутке времени <strong>timeFrom &ndash; timeTo*</strong>. Если <code>null</code>, будет просто показывать выбранный селектор. По умолчанию <code>null</code>. Если передать функцию — она выполнится, когда время войдет в промежуток.</dd>
+
+                            <dt>outInterval</dt>
+                            <dd><span class="label label-info">string, html</span>&nbsp;<span class="label label-info">fn</span> Выведет текст или HTML вне промежутка времени <strong>timeFrom &ndash; timeTo*</strong>. Если <code>null</code>, будет просто скрывать выбранный селектор. По умолчанию <code>null</code>. Если передать функцию — она выполнится, когда время выйдет из промежутка.</dd>
+                            
+                        </dl>
+                        <h3>Пример</h3>
+                        <pre>$('#element2').jqTime('toggler', {
+    utc: -2,
+    timeFrom: '0:0:0',
+    timeTo: '12:0:0'
+});</pre>
+                    </section>
+                    <section id="gFunc">
+                        <div class="page-header">
+                            <h2>Вспомогательные функции JavaScript</h2>
+                        </div>
+                        <p>В плагине используются вспомогательные функции, которые тоже могут быть полезными. Они находятся в объекте <code>$.jqTime.helper</code></p>
+                        <h3>Опции</h3>
+                        <dl class="dl-horizontal">
+                            
+                            <dt>formater</dt>
+                            <dd><code>$.jqTime.helper.formater(number)</code> Если переданное число меньше 9, то функция добавит перед числом 0, и вернет строку.</dd>
+                            
+                            <dt>stingToTime</dt>
+                            <dd><code>$.jqTime.helper.sting_to_time(hh:mm:ss)</code> Забирает строку в формате <code>"0:0:0"</code>. Возвращает заданое время в секундах.</dd>
+
+                            <dt>updater</dt>
+                            <dd><code>$.jqTime.helper.updater(seconds, utc)</code> Забирает время в секундах, если время кратно 300 секундам (5 минут), обновляет его, и возвращает текущее время в секундах.</dd>
+                            
+                        </dl>
+                    </section>
+                    <section id="gBuild">
+                        <div class="page-header">
+                            <h2>Тестирование и сборка</h2>
+                        </div>
+                        <p>В проекте используется <a href="/jqTime/test/helper.html">тестирование</a> с помощью qUnit. Пока весь проект не покрыт тестами, но тесты дописываются постоянно.</p>
+                        <p>Разработка проекта ведется с методологией Continuous Integration, автоматизированное тестирование работает на <a href="https://travis-ci.org/nim579/jqTime">Travis CI</a>.</p>
+                        <p>Для сборки проекта используется Grunt.js.</p>
+                    </section>
+                </div>
+                
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="span2">
+                    <a href="http://nim579.ru"><img alt="Nim579 Studio" src="//nim579.ru/images/nim579studio.png"></a>
+                </div>
+                <div class="span9">
+                    <p>
+                        Разработано Nick Iv (nim579)<br>
+                        <a href="https://github.com/nim579/jqTime">Страница проекта</a> на GitHub
+                    </p>
+                    <p class="pull-right"><a href="#overview">&uarr; Наверх</a><br>
+                    <a href="/jqTume/">&larr; Вернуться на промо</a></p>
+                </div>
+            </div>
+        </footer>
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter212091 = new Ya.Metrika({id:212091,
+                            webvisor:true,
+                            clickmap:true,
+                            trackLinks:true,
+                            accurateTrackBounce:true});
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="//mc.yandex.ru/watch/212091" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+    </body>
+</html>

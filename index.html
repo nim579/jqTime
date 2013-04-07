@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>jqTime — плагин для jQuery</title>
+
+        <script type="text/javascript" src="http://yandex.st/jquery/1.8.1/jquery.min.js"></script>
+        <script type="text/javascript" src="app/jqTime.min-2.2.5.js"></script>
+        <script type="text/javascript">
+        
+            $(function(){
+                var dayParts = ['dawn', 'day', 'dusk', 'night'];
+                var currentPart = 1;
+                $('.swip').bind('click', function(){
+                    currentPart++;
+                    currentPart %= dayParts.length;
+                    $('body').removeClass(dayParts.join(' ')).addClass(dayParts[currentPart]);
+                });
+                $('.time').jqTime('current');
+            });
+        </script>
+        <style>
+            @font-face {
+              font-family: 'Cookie';
+              font-style: normal;
+              font-weight: 400;
+              src: local('Cookie-Regular'), url(http://themes.googleusercontent.com/static/fonts/cookie/v4/CytOAGPO6GUb8gQ4_bMS1OvvDin1pK8aKteLpeZ5c0A.woff) format('woff');
+            }
+            body {margin: 0; padding: 0; font-family: Arial; font-weight: normal;}
+            .bg {
+                z-index: 1;
+                position:absolute;
+                left: 0;
+                bottom: 0;
+                top: 0;
+                right: 0;
+                background: url('site/bg-day.jpg') no-repeat center center;
+                background-size: cover;
+            }
+            .time {
+                z-index: 10;
+                position: absolute;
+                top: 50%;
+                left: 65%;
+                margin-top: -32px;
+                color: #fff;
+                font-size: 64px;
+                line-height: 64px;
+                font-family: "Helvetica Neue", Arial;
+                font-weight: 100;
+                text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+            }
+            .logo {z-index: 8; position: absolute; top: 20px; left: 30px; font-family: "Cookie"; font-size: 5em; color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.2);}
+            .text {z-index: 9; position: absolute; top: 35%; left: 7%; max-width: 500px; margin-top: 60px;}
+            .text .super {
+                position: relative;
+                font-family: "Helvetica Neue", Georgia;
+                background: rgba(50,50,50,0.7);
+                display: inline-block;
+                font-size: 1.2em;
+                color: #fff;
+                padding: 5px;
+                font-weight: 200;
+                text-shadow: 0 0 15px #000;
+                margin-bottom: 8px;
+            }
+            .super span {position: relative;}
+            .super.head {font-size: 2.2em;}
+            .super a:link, .super a:visited, .super a:active {
+                color: #66bbff;
+            }
+            .super a:hover {color: #97becc;}
+            .dwl {
+                display: inline-block;
+                background-color: #5BB75B;
+                background-image: -moz-linear-gradient(center top , #62C462, #51A351);
+                border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+                color: #FFFFFF;
+                text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+                text-decoration: none;
+                border-image: none;
+                border-radius: 5px;
+                border-style: solid;
+                border-width: 1px;
+                box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 15px 2px #fff;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: normal;
+                margin: 15px 0;
+                padding: 9px 14px;
+                text-align: center;
+                vertical-align: middle;
+                font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+                font-weight: normal;
+            }
+            .dwl:hover {
+                background: #51A351;
+                color: #fff;
+            }
+            .dwl-label {display: inline-block; vertical-align: baseline; margin: 0 10px;}
+            .icon-download {
+                  display: inline-block;
+                  width: 15px;
+                  height: 15px;
+                  margin-top: 2px;
+                  *margin-right: .3em;
+                  line-height: 15px;
+                  vertical-align: text-top;
+                  background-image: url("material/gh-ico.png");
+                  background-repeat: no-repeat;
+            }
+
+            .dawn .bg {
+                background: url('site/bg-dawn.jpg') no-repeat center center;
+            }
+            .dusk .bg {
+                background: url('site/bg-dusk.jpg') no-repeat top center;
+            }
+            .dusk .time {
+                color: #444;
+            }
+            .dusk .dwl {
+                box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset, 0 1px 2px rgba(0, 0, 0, 0.05), 0 0 10px #444;
+            }
+            .dusk .super {
+                text-shadow: none;
+                color: #222;
+                background: transparent;
+            }
+            .dusk .text .super {
+                text-shadow: 0;
+            }
+            .dusk .super a:link, .dusk .super a:visited, .dusk .super a:active {
+                color: #225599;
+            }
+            @media (max-width: 850px) {
+                .time {
+                    top: 130px;
+                    margin-top: 0;
+                    left: 0;
+                    right: 15%;
+                    text-align: right;
+                }
+            }
+        </style>
+    </head>
+    <body class="day">
+        <div class="bg"></div>
+        <div class="logo">jqTime</div>
+        <div class="time">00:00:00</div>
+        <div class="text">
+            <span class="super head"><span><span class="swip">jq</span>Time &mdash; плагин jQuery</span></span><br>
+            <span class="super"><span>Он выводит время, и выполняет множество разных полезных операций над ним</span></span><br>
+            <span class="super"><span>Вы можете почитать подробнее про плагин и его <a href="docs/">документацию</a></span></span><br>
+            <a href="//github.com/nim579/jqTime/tree/master/app" class="dwl"><i class="icon-download"></i> Плагин на GitHub!</a><span class="dwl-label"></span>
+        </div>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter212091 = new Ya.Metrika({id:212091, enableAll: true, trackHash:true, webvisor:true});
+        } catch(e) { }
+    });
+    
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/212091" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+    </body>
+</html>

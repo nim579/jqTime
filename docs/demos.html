@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>jqTime — плагин для jQuery</title>
+
+        <link type="text/css" rel="StyleSheet" href="../material/bootstrap/css/bootstrap.css" />
+        <link type="text/css" rel="StyleSheet" href="../material/bootstrap/css/bootstrap-responsive.css" />
+
+        <link href="../material/bootstrap/css/customize.css" rel="stylesheet">
+        <script type="text/javascript" src="http://yandex.st/jquery/1.8.1/jquery.min.js"></script>
+        <script type="text/javascript" src="../material/bootstrap/js/bootstrap.js"></script>
+        <script type="text/javascript" src="../app/jqTime-2.2.5.js"></script>
+        <script type="text/javascript">
+            var $current = {}
+            var currTimer = null;
+            var $interval = {}
+            var interTimer = null;
+            var $toggler = {}
+            var toggTimer = null;
+            $(function(){
+                $('.nav-list').scrollspy();
+                $('[data-spy="scroll"]').each(function () {
+                    var $spy = $(this).scrollspy('refresh')
+                });
+                $('.bs-docs-sidenav').affix({offset: {top: 160,bottom: 160}});
+
+                $current = {
+                    wrap: $('#currWrap'),
+                    utc: $('#currUtc'),
+                    sepor: $('#currSepor'),
+                    format: $('#currFormat'),
+                    exp: $('#currExp')
+                }
+                function setCurrent(){
+                    $('#pCur').jqTime('clear').jqTime('current', {
+                        wrap: !!$current.wrap.attr('checked'),
+                        utc: ( !!$current.utc.val() ? $current.utc.val() : void 0 ),
+                        sepor: ( !!$current.sepor.val() ? $current.sepor.val() : void 0 ),
+                        format: !!$current.format.attr('checked'),
+                        exp: ( !!$current.exp.val() ? $current.exp.val() : void 0 )
+                    });
+                }
+                setCurrent();
+                $('#currWrap, #currUtc, #currSepor, #currFormat, #currExp').bind('change keyup', function(e){
+                    clearTimeout(currTimer);
+                    currTimer = setTimeout(function(){
+                            $(e.currentTarget).parent().find('.help-line').fadeIn(100).delay(500).fadeOut(500);
+                            setCurrent();
+                    }, 1000);
+                });
+
+                $interval = {
+                    wrap: $('#intervalWrap'),
+                    utc: $('#intervalUtc'),
+                    sepor: $('#intervalSepor'),
+                    format: $('#intervalFormat'),
+                    exp: $('#intervalExp'),
+                    timeFrom: $('#intervalTFrom'),
+                    timeTo: $('#intervalTTo'),
+                    alt: $('#intervalAlt')
+                }
+                function setInterv(){
+                    $('#pInter').jqTime('clear').jqTime('interval', {
+                        wrap: !!$interval.wrap.attr('checked'),
+                        utc: ( !!$interval.utc.val() ? $interval.utc.val() : void 0 ),
+                        sepor: ( !!$interval.sepor.val() ? $interval.sepor.val() : void 0 ),
+                        format: !!$interval.format.attr('checked'),
+                        exp: ( !!$interval.exp.val() ? $interval.exp.val() : void 0 ),
+                        timeFrom: ( !!$interval.timeFrom.val() ? $interval.timeFrom.val() : void 0 ),
+                        timeTo: ( !!$interval.timeTo.val() ? $interval.timeTo.val() : void 0 ),
+                        alt: ( !!$interval.alt.val() ? $interval.alt.val() : void 0 )
+                    });
+                }
+                setInterv();
+                $('#intervalWrap, #intervalUtc, #intervalSepor, #intervalFormat, #intervalExp, #intervalTFrom, #intervalTTo, #intervalAlt').bind('change keyup', function(e){
+                    clearTimeout(interTimer);
+                    interTimer = setTimeout(function(){
+                            $(e.currentTarget).parent().find('.help-line').fadeIn(100).delay(500).fadeOut(500);
+                            setInterv();
+                    }, 1000);
+                });
+
+                $toggler = {
+                    utc: $('#togglerUtc'),
+                    timeFrom: $('#togglerTFrom'),
+                    timeTo: $('#togglerTTo'),
+                    inInterval: $('#togglerIn'),
+                    outInterval: $('#togglerOut')
+                }
+                function setToggler(){
+                    $('#pTogg').jqTime('clear').jqTime('toggler', {
+                        utc: ( !!$toggler.utc.val() ? $toggler.utc.val() : void 0 ),
+                        timeFrom: ( !!$toggler.timeFrom.val() ? $toggler.timeFrom.val() : void 0 ),
+                        timeTo: ( !!$toggler.timeTo.val() ? $toggler.timeTo.val() : void 0 ),
+                        inInterval: ( !!$toggler.inInterval.val() ? $toggler.inInterval.val() : void 0 ),
+                        outInterval: ( !!$toggler.outInterval.val() ? $toggler.outInterval.val() : void 0 )
+                    });
+                }
+                setToggler();
+                $('#togglerUtc, #togglerTFrom, #togglerTTo, #togglerIn, #togglerOut').bind('change keyup', function(e){
+                    clearTimeout(toggTimer);
+                    toggTimer = setTimeout(function(){
+                            $(e.currentTarget).parent().find('.help-line').fadeIn(100).delay(500).fadeOut(500);
+                            setToggler();
+                    }, 1000);
+                });
+            });
+        </script>
+    </head>
+    <body data-spy="scroll" data-target=".nav-list">
+        <header class="jumbotron subhead" id="overview">
+            <div class="container">
+                <a href="/jqTime/"><img src="../material/logo.png" alt="jqTime"></a>
+            </div>
+        </header>
+        <div class="container">
+            <div class="row">
+                
+                <!-- left nav -->
+                <nav>
+                    <div class="span3 bs-docs-sidebar">
+                        <ul class="nav nav-list bs-docs-sidenav" id="">
+                            <li><a href="/jqTime/docs/"><i class="icon-chevron-right"></i> Документация</a></li>
+                            <li class="active"><a href="#tCurr"><i class="icon-chevron-right"></i> Current</a></li>
+                            <li><a href="#tIinterval"><i class="icon-chevron-right"></i> Interval</a></li>
+                            <li><a href="#tToggler"><i class="icon-chevron-right"></i> Toggler</a></li>
+                            <li><a href="#gBuild"><i class="icon-chevron-right"></i> Тестирование и сборка</a></li>
+                        </ul>
+                    </div>
+                </nav>
+                
+                <div class="span9" data-spy="scroll">
+                    <div class="page-header">
+                        <h1>jqTime <span class="badge badge-success">2.2</span></h1>
+                        <p>&mdash;&nbsp;это jQuery плагин, выводящий время на&nbsp;экран. Плагин содержит в&nbsp;себе множество гибких настроек.</p>
+                    </div>
+                    <p class="lead"><a href="/jqTime/docs/">Читать</a> документацию</p>
+                    <section id="tCurr">
+                        <div class="page-header">
+                            <h2>Current</h2>
+                        </div>
+                        <p class="lead">Время: <span id="pCur">00:00:00</span></p>
+                        <form class="form-horizontal">
+                            <legend>Настройки</legend>
+                            <div class="control-group">
+                                <label class="control-label" for="currWrap">wrap</label>
+                                <div class="controls">
+                                    <input type="checkbox" id="currWrap">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Если отметить, будет считать время в обратную сторону</span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="currUtc">UTC</label>
+                                <div class="controls">
+                                    <input type="text" id="currUtc" placeholder="For example: -2" value="real">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Часовой пояс (±12). Если real, то ставит часовой пояс пользователя</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="currSepor">sepor</label>
+                                <div class="controls">
+                                    <input type="text" id="currSepor" placeholder='For example: ":"'>
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Устанавливает разделитель. Работает только если не задано поле <b>exp</b></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="currFormat">format</label>
+                                <div class="controls">
+                                    <input type="checkbox" id="currFormat">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Форматирует время (если <10, то добавляет 0 в начало &mdash; 09)</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="currExp">exp</label>
+                                <div class="controls">
+                                    <input type="text" id="currExp" placeholder="HH:MM:SS">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    <section id="tIinterval">
+                        <div class="page-header">
+                            <h2>Interval</h2>
+                        </div>
+                        <p class="lead">Время: <span id="pInter">Out of intervel</span></p>
+                        <form class="form-horizontal">
+                            <legend>Настройки</legend>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalWrap">wrap</label>
+                                <div class="controls">
+                                    <input type="checkbox" id="intervalWrap">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Если отметить, будет считать время в обратную сторону</span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="intervalUtc">UTC</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalUtc" placeholder="For example: -2" value="real">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Часовой пояс (±12). Если real, то ставит часовой пояс пользователя</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalSepor">sepor</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalSepor" placeholder='For example: ":"'>
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Устанавливает разделитель. Работает только если не задано поле <b>exp</b></span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalFormat">format</label>
+                                <div class="controls">
+                                    <input type="checkbox" id="intervalFormat">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Форматирует время (если <10, то добавляет 0 в начало &mdash; 09)</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalExp">exp</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalExp" placeholder="HH:MM:SS">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalTFrom">timeFrom</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalTFrom" placeholder="HH:MM:SS" value="12:00:00">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Начало промежутся, в котором будет считаться время</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalTTo">timeTo</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalTTo" placeholder="HH:MM:SS" value="13:00:00">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Конец промежутся, в котором будет считаться время</span>
+                                </div>
+                            </div>
+
+                            <div class="control-group">
+                                <label class="control-label" for="intervalAlt">alt</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalAlt" placeholder="String or HTML">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Текст или HTML, который будет показываться вне указаного промежутка (если не указать, будет показано исходное содержимое)</span>
+                                </div>
+                            </div>
+                        </form>
+                    </section>
+                    <section id="tToggler">
+                        <div class="page-header">
+                            <h2>Toggler</h2>
+                        </div>
+                        <p class="lead">Объект: <span id="pTogg">Example text</span></p>
+                        <form class="form-horizontal">
+                            <legend>Настройки</legend>
+                            <div class="control-group">
+                                <label class="control-label" for="togglerUtc">UTC</label>
+                                <div class="controls">
+                                    <input type="text" id="togglerUtc" placeholder="For example: -2" value="real">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Часовой пояс (±12). Если real, то ставит часовой пояс пользователя</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="togglerlTFrom">timeFrom</label>
+                                <div class="controls">
+                                    <input type="text" id="togglerlTFrom" placeholder="HH:MM:SS" value="12:00:00">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Начало промежутся, в котором будет считаться время</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="togglerTTo">timeTo</label>
+                                <div class="controls">
+                                    <input type="text" id="togglerTTo" placeholder="HH:MM:SS" value="13:00:00">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Конец промежутся, в котором будет считаться время</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="togglerIn">inInterval</label>
+                                <div class="controls">
+                                    <input type="text" id="togglerIn" placeholder="<b>Some html content in interval</b>" value="In interval">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Текст, HTML или функция, который(ая) будет выполняться в вышеуказаном промежутке</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="togglerOut">outInterval</label>
+                                <div class="controls">
+                                    <input type="text" id="togglerOut" placeholder="<b>Some html content out of interval</b>" value="Out of interval">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Текст, HTML или функция, который(ая) будет выполняться вне вышеуказанного промежутка</span>
+                                </div>
+                            </div>
+
+                        </form>
+                    </section>
+                    <section id="gBuild">
+                        <div class="page-header">
+                            <h2>Тестирование и сборка</h2>
+                        </div>
+                        <p>В проекте используется <a href="/jqTime/test/helper.html">тестирование</a> с помощью qUnit. Пока весь проект не покрыт тестами, но тесты дописываются постоянно.</p>
+                        <p>Разработка проекта ведетcя с методологией Continuous Integration, автоматизированное тестирование работает на <a href="https://travis-ci.org/nim579/jqTime">Travis CI</a>.</p>
+                        <p>Для сборки проекта используется Grunt.js.</p>
+                    </section>
+                </div>
+                
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="container">
+                <div class="span2">
+                    <a href="http://nim579.ru"><img alt="Nim579 Studio" src="//nim579.ru/images/nim579studio.png"></a>
+                </div>
+                <div class="span9">
+                    <p>
+                        Разработано Nick Iv (nim579)<br>
+                        <a href="https://github.com/nim579/jqTime">Страница проекта</a> на GitHub
+                    </p>
+                    <p class="pull-right"><a href="#overview">&uarr; Наверх</a><br>
+                    <a href="/jqTume/">&larr; Вернуться на промо</a></p>
+                </div>
+            </div>
+        </footer>
+        <!-- Yandex.Metrika counter -->
+        <script type="text/javascript">
+        (function (d, w, c) {
+            (w[c] = w[c] || []).push(function() {
+                try {
+                    w.yaCounter212091 = new Ya.Metrika({id:212091,
+                            webvisor:true,
+                            clickmap:true,
+                            trackLinks:true,
+                            accurateTrackBounce:true});
+                } catch(e) { }
+            });
+
+            var n = d.getElementsByTagName("script")[0],
+                s = d.createElement("script"),
+                f = function () { n.parentNode.insertBefore(s, n); };
+            s.type = "text/javascript";
+            s.async = true;
+            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+            if (w.opera == "[object Opera]") {
+                d.addEventListener("DOMContentLoaded", f, false);
+            } else { f(); }
+        })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="//mc.yandex.ru/watch/212091" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!-- /Yandex.Metrika counter -->
+    </body>
+</html>
