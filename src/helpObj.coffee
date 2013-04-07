@@ -15,7 +15,6 @@ $.jqTimeProc =
     formater: (f_c)->
         if f_c?
             if String(f_c).length > 0
-                console.log('tttt', Number f_c)
                 f_c = '0' + Number f_c if Number f_c <= 9
 
             return String f_c

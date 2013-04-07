@@ -21,7 +21,6 @@
     formater: function(f_c) {
       if (f_c != null) {
         if (String(f_c).length > 0) {
-          console.log('tttt', Number(f_c));
           if (Number(f_c <= 9)) {
             f_c = '0' + Number(f_c);
           }
