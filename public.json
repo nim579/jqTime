@@ -4,12 +4,12 @@
     "author": "Ivanushkin Nikolay (Nim579)",
     "birthday": "29.04.2011",
     "sites": {
-        "promo": "http://nim579.ru/promo/jqtime.html",
-        "documentation": "http://nim579.ru/html/jqtime.html (http://nim579.ru/dev/jqtime.html)"
+        "promo": "http://nim579.ru/promo/jqtime/",
+        "documentation": "http://nim579.ru/html/jqtime/"
     },
     
     
-    "version": "2.0b",
+    "version": "2.0.0",
     
     "app": {
         "root": "src/",

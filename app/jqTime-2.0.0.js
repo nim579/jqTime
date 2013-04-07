@@ -2,7 +2,7 @@
 // Aunthor: Ivanushkin Nikolay (Nim579). Sorced 29.04.2011
 // Promo: http://nim579.ru/promo/jqtime/
 // Documentation: http://nim579.ru/html/jqtime/
-// Version: 2.0b (Sun Apr 07 2013 12:50:41)
+// Version: 2.0.0 (Sun Apr 07 2013 12:54:36)
 
 (function() {
   $.jqTimeProc = {
