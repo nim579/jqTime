@@ -34,15 +34,21 @@ jqTime 2.0b2 (pre release)
 
 Вставляет текущее время в элемент с id element1:
 
-`$('#element1').curTime();`
+~~~~~ js
+$('#element1').curTime();
+~~~~~
 
 Будет показывать текущее время с 10:00:01 до 11 часов в element2:
 	
-`$('#element2').intervalTime({from: '10:00:01', to: '11:00:00'});`
+~~~~~ js
+$('#element2').intervalTime({from: '10:00:01', to: '11:00:00'});
+~~~~~
 
 Будет показывать заданный элемент с 10 часов 1 секунды, до 11 часов:
-	
-`$('#element3').timeToggler({from: '10:00:01', to: '11:00:00'});`
+
+~~~~~ js	
+$('#element3').timeToggler({from: '10:00:01', to: '11:00:00'});
+~~~~~
 
 Общие свойства функций
 ----------------------
@@ -69,14 +75,15 @@ jqTime 2.0b2 (pre release)
 **exp** (RegExp) — если не *null*, отменяет опции *sepor* и *format*, и выводит время в соответствии с заданным регулярным выражением. по умолчанию *null*.
 
 Пример вывода:
-
-	$('#element').curTime({
-		sepor: ':',
-		wrap: true,
-		utc: 0,
-		format: false,
-		exp: 'hh:MM:ss'
-	});
+~~~~~ js
+$('#element').curTime({
+	sepor: ':',
+	wrap: true,
+	utc: 0,
+	format: false,
+	exp: 'hh:MM:ss'
+});
+~~~~~
 
 Функция intervalTime
 --------------------
@@ -101,13 +108,15 @@ jqTime 2.0b2 (pre release)
 
 Пример вывода:
 
-	$('#element2').intervalTime({
-		utc: +4,
-		timeFrom: '0:0:0',
-		timeTo: '12:0:0',
-		alt: '<span>Вне промежутка</span>',
-		exp: 'hh:MM:ss'
-	});
+~~~~~ js
+$('#element2').intervalTime({
+	utc: +4,
+	timeFrom: '0:0:0',
+	timeTo: '12:0:0',
+	alt: '<span>Вне промежутка</span>',
+	exp: 'hh:MM:ss'
+});
+~~~~~
 
 Функция timeToggler
 -------------------
@@ -126,11 +135,13 @@ jqTime 2.0b2 (pre release)
 
 Пример вывода:
 
-	$('#element2').timeToggler({
-		utc: -2,
-		timeFrom: '0:0:0',
-		timeTo: '12:0:0'
-	});
+~~~~~ js
+$('#element2').timeToggler({
+	utc: -2,
+	timeFrom: '0:0:0',
+	timeTo: '12:0:0'
+});
+~~~~~
 
 Вспомогательные функции js
 --------------------------
