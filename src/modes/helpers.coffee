@@ -1,4 +1,6 @@
-$.jqTimeProc =
+$.jqTime = {} unless $.jqTime?
+
+$.jqTime.helper =
     returnString: (tmpl, sepor, hou, min, sec)->
         str = ''
         sar = []
@@ -43,7 +45,7 @@ $.jqTimeProc =
         else
             return null
 
-    expToTime: (str)->
+    expToTime: (str, hou, min, sec)->
         str = str.replace /([h]+)/g, hou
         str = str.replace /([H]+)/g, @formater hou
         str = str.replace /([m]+)/g, min

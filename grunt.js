@@ -11,8 +11,12 @@ grunt.initConfig({
                 '// Version: <%= pkg.version %> (<%= grunt.template.today() %>)'
     },
     concat: {
+        dev: {
+            src: ['<banner:meta.banner>', '<%= pkg.app.root %>*.js', '<%= pkg.app.root %>modes/*.js'],
+            dest: 'dev/<%= pkg.app.js %>.js'
+        },
         app: {
-            src: ['<banner:meta.banner>', '<%= pkg.app.root %>*.js'],
+            src: ['<banner:meta.banner>', '<%= pkg.app.root %>*.js', '<%= pkg.app.root %>modes/*.js'],
             dest: '<%= pkg.app.pub %><%= pkg.app.js %>-<%= pkg.version %>.js'
         }
     },
@@ -24,7 +28,7 @@ grunt.initConfig({
     },
     coffee: {
         app: {
-            files: ['<%= pkg.app.root %>*.coffee']
+            files: ['<%= pkg.app.root %>**/*.coffee']
         }
     },
     qunit: {
@@ -32,8 +36,8 @@ grunt.initConfig({
     },
     watch: {
         coffee: {
-            files: '<%= pkg.app.root %>*.coffee',
-            tasks: 'build'
+            files: '<%= pkg.app.root %>**/*.coffee',
+            tasks: 'coffee concat:dev'
         }
     }
 });
@@ -47,13 +51,13 @@ grunt.initConfig({
             grunt.task.run('qunit after_test');
         } else {
             grunt.log.write('Run build...');
-            grunt.task.run('concat min version');
+            grunt.task.run('coffee concat:app min version');
         }
     });
   
     grunt.registerTask('after_test', 'Build project', function(test) {
         grunt.log.ok('Tests passed! Run build...');
-        grunt.task.run('concat min version');
+        grunt.task.run('coffee concat:app min version');
     });
   
     var coffee = require('./lib/node_modules/coffee-script');

@@ -1,5 +1,9 @@
 (function() {
-  $.jqTimeProc = {
+  if ($.jqTime == null) {
+    $.jqTime = {};
+  }
+
+  $.jqTime.helper = {
     returnString: function(tmpl, sepor, hou, min, sec) {
       var sar, str;
 
@@ -58,7 +62,7 @@
         return null;
       }
     },
-    expToTime: function(str) {
+    expToTime: function(str, hou, min, sec) {
       str = str.replace(/([h]+)/g, hou);
       str = str.replace(/([H]+)/g, this.formater(hou));
       str = str.replace(/([m]+)/g, min);

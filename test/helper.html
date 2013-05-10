@@ -6,39 +6,39 @@
         <meta http-equiv="content-type" content="text/html; charset=utf-8">
         <script type="text/javascript" src="../lib/qunit.js"></script>
         <script type="text/javascript" src="../lib/jquery.min-1.7.2.js"></script>
-        <script type="text/javascript" src="../src/helpObj.js"></script>
+        <script type="text/javascript" src="../src/modes/helpers.js"></script>
         <script type="text/javascript">
-            test('$.jqTimeProc.formater()', function () {
-                ok($.jqTimeProc.formater('') == '', 'Пустая строка');
-                ok($.jqTimeProc.formater(10) == '10', 'Число без форматирования');
-                ok($.jqTimeProc.formater() == null, 'Без параметра');
-                ok($.jqTimeProc.formater(1) == '01', 'Формат обычного числа');
-                ok($.jqTimeProc.formater(9) == '09', 'Формат близкого к 10 числа');
-                ok($.jqTimeProc.formater(10) == '10', 'Фотмат 10');
-                ok($.jqTimeProc.formater(67) == '67', 'Формат двузначного');
-                ok($.jqTimeProc.formater(407) == '407', 'Формат трехзначного с нулевым десятком');
-                ok($.jqTimeProc.formater('1') == '01', 'Формат обычного числа (string)');
-                ok($.jqTimeProc.formater('9') == '09', 'Формат близкого к 10 числа (string)');
-                ok($.jqTimeProc.formater('10') == '10', 'Фотмат 10 (string)');
-                ok($.jqTimeProc.formater('67') == '67', 'Формат двузначного (string)');
-                ok($.jqTimeProc.formater('407') == '407', 'Формат трехзначного с нулевым десятком (string)');
-                ok($.jqTimeProc.formater('07') == '07', 'Формат отформатированного');
-                ok($.jqTimeProc.formater('6ы6') == '6ы6', 'Неожиданный символ');
+            test('$.jqTime.helper.formater()', function () {
+                ok($.jqTime.helper.formater('') == '', 'Пустая строка');
+                ok($.jqTime.helper.formater(10) == '10', 'Число без форматирования');
+                ok($.jqTime.helper.formater() == null, 'Без параметра');
+                ok($.jqTime.helper.formater(1) == '01', 'Формат обычного числа');
+                ok($.jqTime.helper.formater(9) == '09', 'Формат близкого к 10 числа');
+                ok($.jqTime.helper.formater(10) == '10', 'Фотмат 10');
+                ok($.jqTime.helper.formater(67) == '67', 'Формат двузначного');
+                ok($.jqTime.helper.formater(407) == '407', 'Формат трехзначного с нулевым десятком');
+                ok($.jqTime.helper.formater('1') == '01', 'Формат обычного числа (string)');
+                ok($.jqTime.helper.formater('9') == '09', 'Формат близкого к 10 числа (string)');
+                ok($.jqTime.helper.formater('10') == '10', 'Фотмат 10 (string)');
+                ok($.jqTime.helper.formater('67') == '67', 'Формат двузначного (string)');
+                ok($.jqTime.helper.formater('407') == '407', 'Формат трехзначного с нулевым десятком (string)');
+                ok($.jqTime.helper.formater('07') == '07', 'Формат отформатированного');
+                ok($.jqTime.helper.formater('6ы6') == '6ы6', 'Неожиданный символ');
             });
-            test('$.jqTimeProc.stingToTime()', function () {
-                ok($.jqTimeProc.stingToTime('') == '', 'Пустая строка');
-                ok($.jqTimeProc.stingToTime() == undefined, 'Без параметра');
-                ok($.jqTimeProc.stingToTime('00:00:00') == 0, '0 часов');
-                ok($.jqTimeProc.stingToTime('23:59:59') == 86399, 'Без секунды 12');
-                ok($.jqTimeProc.stingToTime('11:51:34') == 42694, 'Без секунды 12');
-                ok($.jqTimeProc.stingToTime('9:4:1') == 32641, 'Неформатированное время');
-                ok($.jqTimeProc.stingToTime('9:0:0') == 32400, 'Неформатированное время с нулями');
-                ok($.jqTimeProc.stingToTime('59:99:13') == 218353, 'Невозможное время');
-                // ok($.jqTimeProc.stingToTime('59к:9е9:13п') == NaN, 'Неожиданный символ');
-                ok($.jqTimeProc.stingToTime('11:13') == 40380, 'Мало временных параметров');
-                ok($.jqTimeProc.stingToTime('1113') == 4006800, 'Нет временных параметров');
-                // ok($.jqTimeProc.stingToTime('9:9:9:9') == 32949, 'Слишком много параметров');
-                // ok($.jqTimeProc.stingToTime('9.9:0:0') == 32400, 'Дробное число');            });
+            test('$.jqTime.helper.stingToTime()', function () {
+                ok($.jqTime.helper.stingToTime('') == '', 'Пустая строка');
+                ok($.jqTime.helper.stingToTime() == undefined, 'Без параметра');
+                ok($.jqTime.helper.stingToTime('00:00:00') == 0, '0 часов');
+                ok($.jqTime.helper.stingToTime('23:59:59') == 86399, 'Без секунды 12');
+                ok($.jqTime.helper.stingToTime('11:51:34') == 42694, 'Без секунды 12');
+                ok($.jqTime.helper.stingToTime('9:4:1') == 32641, 'Неформатированное время');
+                ok($.jqTime.helper.stingToTime('9:0:0') == 32400, 'Неформатированное время с нулями');
+                ok($.jqTime.helper.stingToTime('59:99:13') == 218353, 'Невозможное время');
+                // ok($.jqTime.helper.stingToTime('59к:9е9:13п') == NaN, 'Неожиданный символ');
+                ok($.jqTime.helper.stingToTime('11:13') == 40380, 'Мало временных параметров');
+                ok($.jqTime.helper.stingToTime('1113') == 4006800, 'Нет временных параметров');
+                // ok($.jqTime.helper.stingToTime('9:9:9:9') == 32949, 'Слишком много параметров');
+                // ok($.jqTime.helper.stingToTime('9.9:0:0') == 32400, 'Дробное число');            });
         </script>
         </script>
     </head>
