@@ -2,7 +2,7 @@
 // Aunthor: Nick Iv (Nim579). Sorced 29.04.2011
 // Promo: http://dev.nim579.ru/jqTime/
 // Documentation: http://dev.nim579.ru/jqTime/docs/
-// Version: 2.2.0 (Fri May 10 2013 14:09:07)
+// Version: 2.2.1 (Tue May 21 2013 09:53:20)
 
 (function() {
   $.jqTime = {};
@@ -113,7 +113,7 @@
     if (w < 0) {
       w = 86400 + w;
     }
-    if (options.warp) {
+    if (options.wrap) {
       w = 86400 - w;
     }
     hou = Math.floor(w / 3600);

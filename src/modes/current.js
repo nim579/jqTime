@@ -17,7 +17,7 @@
     if (w < 0) {
       w = 86400 + w;
     }
-    if (options.warp) {
+    if (options.wrap) {
       w = 86400 - w;
     }
     hou = Math.floor(w / 3600);

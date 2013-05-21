@@ -9,7 +9,7 @@ $.jqTime.modes.current = (el, options)->
     i %= 86400
     w = i
     w = 86400 + w if w < 0
-    w = 86400 - w if options.warp
+    w = 86400 - w if options.wrap
 
     hou = Math.floor w / 3600
     min = Math.floor (w - hou * 3600) / 60

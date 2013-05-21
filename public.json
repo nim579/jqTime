@@ -8,7 +8,7 @@
         "documentation": "http://dev.nim579.ru/jqTime/docs/"
     },
 
-    "version": "2.2.0",
+    "version": "2.2.1",
 
     "app": {
         "root": "src/",
