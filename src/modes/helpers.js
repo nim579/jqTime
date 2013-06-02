@@ -5,9 +5,29 @@
 
   $.jqTime.helper = {
     returnString: function(tmpl, sepor, hou, min, sec) {
-      var sar, str;
+      var i, result, sar, _i, _len;
 
-      str = '';
+      if (tmpl == null) {
+        tmpl = "hms";
+      }
+      if (sepor == null) {
+        sepor = ':';
+      }
+      if (hou == null) {
+        hou = "H";
+      }
+      if (min == null) {
+        min = "M";
+      }
+      if (sec == null) {
+        sec = "S";
+      }
+      if (typeof tmpl !== 'string') {
+        tmpl = "hms";
+      }
+      if (!(typeof sepor === 'string' || typeof sepor === 'number')) {
+        sepor = ":";
+      }
       sar = [];
       tmpl = tmpl.toLowerCase();
       if (tmpl.indexOf('h') >= 0) {
@@ -19,8 +39,14 @@
       if (tmpl.indexOf('s') >= 0) {
         sar[tmpl.indexOf('s')] = sec;
       }
-      str = sar.join(sepor);
-      return str;
+      result = [];
+      for (_i = 0, _len = sar.length; _i < _len; _i++) {
+        i = sar[_i];
+        if (!!i) {
+          result.push(i);
+        }
+      }
+      return result.join(sepor);
     },
     formater: function(f_c) {
       if (f_c != null) {
@@ -45,17 +71,26 @@
       }
       return increment;
     },
-    stingToTime: function(str) {
-      var i, time, v, _i, _len;
+    stingToTime: function(string) {
+      var arr, i, time, v, _i, _len;
 
-      if (str != null) {
-        str = str.split(':');
+      if (string != null) {
         time = 0;
-        v = 2;
-        for (_i = 0, _len = str.length; _i < _len; _i++) {
-          i = str[_i];
-          time += Number(i) * Math.pow(60, v);
-          v--;
+        if (!string) {
+          return 0;
+        }
+        if (typeof string === 'number') {
+          return string;
+        }
+        arr = string.split(':');
+        arr = arr.slice(0, 3);
+        time = 0;
+        for (v = _i = 0, _len = arr.length; _i < _len; v = ++_i) {
+          i = arr[v];
+          if (Number(i === NaN)) {
+            return NaN;
+          }
+          time += Math.floor(Number(i)) * Math.pow(60, 2 - v);
         }
         return time;
       } else {
@@ -63,13 +98,22 @@
       }
     },
     expToTime: function(str, hou, min, sec) {
-      str = str.replace(/([h]+)/g, hou);
-      str = str.replace(/([H]+)/g, this.formater(hou));
-      str = str.replace(/([m]+)/g, min);
-      str = str.replace(/([M]+)/g, this.formater(min));
-      str = str.replace(/([s]+)/g, sec);
-      str = str.replace(/([S]+)/g, this.formater(sec));
-      return str;
+      if (str && typeof str === 'string') {
+        if ((hou != null) && typeof hou === 'string' || typeof hou === 'number') {
+          str = str.replace(/([h]+)/g, hou);
+          str = str.replace(/([H]+)/g, this.formater(hou));
+        }
+        if ((min != null) && typeof min === 'string' || typeof min === 'number') {
+          str = str.replace(/([m]+)/g, min);
+          str = str.replace(/([M]+)/g, this.formater(min));
+        }
+        if ((sec != null) && typeof sec === 'string' || typeof sec === 'number') {
+          str = str.replace(/([s]+)/g, sec);
+          str = str.replace(/([S]+)/g, this.formater(sec));
+        }
+        return str;
+      }
+      return null;
     }
   };
 

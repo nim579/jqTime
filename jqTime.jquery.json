@@ -1,7 +1,7 @@
 {
   "name": "jqTime",
-  "version": "2.2.1",
-  "title": "jQuery jqTime — jQuery time plugin",
+  "version": "2.2.2",
+  "title": "jqTime — jQuery time plugin",
   "description": "jqTime - this is a jQuery plugin that displays the time on the screen. The plugin contains many flexible settings.",
   "keywords": ["time", "timers", "watchs"],
   "author": {

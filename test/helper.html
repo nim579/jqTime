@@ -25,20 +25,64 @@
                 ok($.jqTime.helper.formater('07') == '07', 'Формат отформатированного');
                 ok($.jqTime.helper.formater('6ы6') == '6ы6', 'Неожиданный символ');
             });
+
             test('$.jqTime.helper.stingToTime()', function () {
-                ok($.jqTime.helper.stingToTime('') == '', 'Пустая строка');
-                ok($.jqTime.helper.stingToTime() == undefined, 'Без параметра');
+                ok($.jqTime.helper.stingToTime('') == 0, 'Пустая строка');
+                ok($.jqTime.helper.stingToTime() == null, 'Без параметра');
                 ok($.jqTime.helper.stingToTime('00:00:00') == 0, '0 часов');
                 ok($.jqTime.helper.stingToTime('23:59:59') == 86399, 'Без секунды 12');
                 ok($.jqTime.helper.stingToTime('11:51:34') == 42694, 'Без секунды 12');
                 ok($.jqTime.helper.stingToTime('9:4:1') == 32641, 'Неформатированное время');
                 ok($.jqTime.helper.stingToTime('9:0:0') == 32400, 'Неформатированное время с нулями');
                 ok($.jqTime.helper.stingToTime('59:99:13') == 218353, 'Невозможное время');
-                // ok($.jqTime.helper.stingToTime('59к:9е9:13п') == NaN, 'Неожиданный символ');
+                ok(isNaN($.jqTime.helper.stingToTime('59к:9е9:13п')), 'Неожиданный символ');
                 ok($.jqTime.helper.stingToTime('11:13') == 40380, 'Мало временных параметров');
                 ok($.jqTime.helper.stingToTime('1113') == 4006800, 'Нет временных параметров');
-                // ok($.jqTime.helper.stingToTime('9:9:9:9') == 32949, 'Слишком много параметров');
-                // ok($.jqTime.helper.stingToTime('9.9:0:0') == 32400, 'Дробное число');            });
+                ok($.jqTime.helper.stingToTime('9:9:9:9') == 32949, 'Слишком много параметров');
+                ok($.jqTime.helper.stingToTime('9.9:0:0') == 32400, 'Дробное число');
+            });
+
+            test('$.jqTime.helper.expToTime()', function() {
+                equal($.jqTime.helper.expToTime("H:M:S", 1,2,3), '01:02:03', "Проверка стандартного regExp");
+                equal($.jqTime.helper.expToTime("h:m:s", 1,2,3), '1:2:3', "Проверка стандартного regExp без форматирования");
+                equal($.jqTime.helper.expToTime("H$MPS", 1,2,3), '01$02P03', "Другой разделитель");
+                equal($.jqTime.helper.expToTime("HMS", 1,2,3), '010203', "Без разделителя");
+                equal($.jqTime.helper.expToTime("H", 1,2,3), '01', "Только часы");
+                equal($.jqTime.helper.expToTime("HHHH", 1,2,3), '01', "Только часы (несколько подряд)");
+                equal($.jqTime.helper.expToTime("M:S:H", 1,2,3), '02:03:01', "Другой порядок");
+                equal($.jqTime.helper.expToTime("H:M:S, где H - часы, M - минуты, s - секунды", 1,2,3), '01:02:03, где 01 - часы, 02 - минуты, 3 - секунды', "Сложный экспрешн");
+
+                equal($.jqTime.helper.expToTime(), null, "Не переданы атрибуты");
+                equal($.jqTime.helper.expToTime("", 1,2,3), null, "Пустой экспрешн");
+                equal($.jqTime.helper.expToTime(7, 1,2,3), null, "Экспрешн - число");
+                equal($.jqTime.helper.expToTime({}, 1,2,3), null, "Экспрешн - обьект");
+
+                equal($.jqTime.helper.expToTime("H:M:S", 1,2), "01:02:S", "Не переданы секунды");
+                equal($.jqTime.helper.expToTime("H:M:S", 1), "01:M:S", "Не переданы минуты");
+                equal($.jqTime.helper.expToTime("H:M:S"), "H:M:S", "Не переданы часы");
+
+                equal($.jqTime.helper.expToTime("H:M:S", 1,2,"$"), "01:02:$", "Неожиданный символ в секундах");
+                equal($.jqTime.helper.expToTime("H:M:S", 1,2,{}), "01:02:S", "Неожиданный объект в секундах");
+            });
+
+            test('$.jqTime.helper.returnString()', function() {
+                equal($.jqTime.helper.returnString("hms", ":", 1,2,3), '1:2:3', "Проверка стандартного значения");
+                equal($.jqTime.helper.returnString("HMS", ":", 1,2,3), '1:2:3', "Проверка стандартного значения (капс)");
+                equal($.jqTime.helper.returnString("hhmmss", ":", 1,2,3), '1:2:3', "Проверка стандартного значения (дубли)");
+                equal($.jqTime.helper.returnString("hmhssmhssshm", ":", 1,2,3), '1:2:3', "Проверка стандартного значения (много дублей в разных местах");
+                equal($.jqTime.helper.returnString("mhs", ":", 1,2,3), '2:1:3', "Разный порядок");
+                equal($.jqTime.helper.returnString("h4апрж245mрв.:'dfgs", ":", 1,2,3), '1:2:3', "Посторонние символы");
+
+                equal($.jqTime.helper.returnString("hms", "", 1,2,3), '123', "Пустая строка разделителя");
+                equal($.jqTime.helper.returnString("hms", null, 1,2,3), '1:2:3', "В разделитель ничего не передано");
+                equal($.jqTime.helper.returnString("hms", ":", 1,2,3), '1:2:3', "Проверка стандартного значения");
+                equal($.jqTime.helper.returnString(7, {}, 1,2,3), '1:2:3', "В шаблон и разделитель переданы неверные значения");
+                equal($.jqTime.helper.returnString("hms", 7, 1,2,3), '17273', "В разделитель передано число");
+
+                equal($.jqTime.helper.returnString("HMS", ":", 1,2), "1:2:S", "Не переданы секунды");
+                equal($.jqTime.helper.returnString("HMS", ":", 1), "1:M:S", "Не переданы минуты");
+                equal($.jqTime.helper.returnString("HMS", ":"), "H:M:S", "Не переданы часы");
+            });
         </script>
         </script>
     </head>
