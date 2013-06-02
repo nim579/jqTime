@@ -1,0 +1,40 @@
+{
+  "name": "jqTime",
+  "descr": "Printing current time in selector",
+  "author": "Nick Iv (Nim579)",
+  "birthday": "29.04.2011",
+  "sites": {
+    "promo": "http://dev.nim579.ru/jqTime/",
+    "documentation": "http://dev.nim579.ru/jqTime/docs/"
+  },
+  "version": "2.2.1",
+  "app": {
+    "root": "src/",
+    "pub": "app/",
+    "js": "jqTime",
+    "min": "jqTime.min"
+  },
+  "readmeFilename": "README.md",
+  "description": "jqTime - this is a jQuery plugin that displays the time on the screen. The plugin contains many flexible settings.",
+  "main": "grunt.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "grunt qunit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nim579/jqTime.git"
+  },
+  "keywords": [
+    "time",
+    "timers",
+    "watches"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "grunt": "0.3.17",
+    "grunt-exec": "0.3.0"
+  }
+}

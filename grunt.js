@@ -2,9 +2,9 @@ module.exports = function(grunt) {
 
   // Project configuration.
 grunt.initConfig({
-    pkg: '<json:public.json>',
+    pkg: '<json:package.json>',
     meta: {
-        banner: '// Plugin <%= pkg.name %>. <%= pkg.descr %>.\n' +
+        banner: '// Plugin <%= pkg.name %>. <%= pkg.description %>\n' +
                 '// Aunthor: <%= pkg.author %>. Sorced <%= pkg.birthday %>\n' +
                 '// Promo: <%= pkg.sites.promo %>\n' +
                 '// Documentation: <%= pkg.sites.documentation %>\n' +

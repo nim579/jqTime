@@ -1,5 +1,5 @@
-jqTime 2.2
-==========================
+jqTime 2.2 [![Build Status](https://travis-ci.org/nim579/jqTime.png?branch=master)](https://travis-ci.org/nim579/jqTime)
+==========
 
 — это jQuery плагин, выводящий время на экран. Плагин содержит в себе множество гибких настроек.
 

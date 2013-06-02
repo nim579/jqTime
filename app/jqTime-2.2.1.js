@@ -1,8 +1,8 @@
-// Plugin jqTime. Printing current time in selector.
+// Plugin jqTime. jqTime - this is a jQuery plugin that displays the time on the screen. The plugin contains many flexible settings.
 // Aunthor: Nick Iv (Nim579). Sorced 29.04.2011
 // Promo: http://dev.nim579.ru/jqTime/
 // Documentation: http://dev.nim579.ru/jqTime/docs/
-// Version: 2.2.1 (Tue May 21 2013 09:53:20)
+// Version: 2.2.1 (Sun Jun 02 2013 16:10:44)
 
 (function() {
   $.jqTime = {};
