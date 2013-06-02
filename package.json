@@ -7,7 +7,7 @@
     "promo": "http://dev.nim579.ru/jqTime/",
     "documentation": "http://dev.nim579.ru/jqTime/docs/"
   },
-  "version": "2.2.2",
+  "version": "2.2.4",
   "app": {
     "root": "src/",
     "pub": "app/",

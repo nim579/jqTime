@@ -13,7 +13,7 @@ $.jqTime.helper =
 
         result = []
         for i in sar
-            result.push i if !!i
+            result.push i if !!i or i == 0
 
         return result.join(sepor)
 

@@ -82,6 +82,10 @@
                 equal($.jqTime.helper.returnString("HMS", ":", 1,2), "1:2:S", "Не переданы секунды");
                 equal($.jqTime.helper.returnString("HMS", ":", 1), "1:M:S", "Не переданы минуты");
                 equal($.jqTime.helper.returnString("HMS", ":"), "H:M:S", "Не переданы часы");
+
+                equal($.jqTime.helper.returnString("HMS", ":", 0,1,2), "0:1:2", "Часы равны 0");
+                equal($.jqTime.helper.returnString("HMS", ":", 0,0,1), "0:0:1", "Часы и минуты равны 0");
+                equal($.jqTime.helper.returnString("HMS", ":", 0,0,0), "0:0:0", "Часы, минуты и секунды равны 0");
             });
         </script>
         </script>

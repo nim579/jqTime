@@ -42,7 +42,7 @@
       result = [];
       for (_i = 0, _len = sar.length; _i < _len; _i++) {
         i = sar[_i];
-        if (!!i) {
+        if (!!i || i === 0) {
           result.push(i);
         }
       }
