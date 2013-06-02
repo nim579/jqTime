@@ -1,0 +1,24 @@
+{
+  "name": "jqTime",
+  "version": "2.0.0",
+  "title": "jQuery jqTime",
+  "description": "jqTime — jQuery time plugin",
+  "keywords": ["time", "timers", "watchs"],
+  "author": {
+    "name" : "Nick Iv",
+    "url": "http://nim579.ru"
+  },
+  "bugs": "https://github.com/nim579/jqTime/issues",
+  "homepage": "http://dev.nim579.ru/jqTime/",
+  "docs": "http://dev.nim579.ru/jqTime/docs/",
+  "download": "https://github.com/nim579/jqTime/tree/master/app",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/nim579/jqTime/blob/release-2.2.0/LICENSE"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.4"
+  }
+}
