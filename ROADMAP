@@ -1,6 +1,25 @@
+Rus:
 2.3
 	- Поправить баг с остановкой времени из-за вызова alert
-	- Добавить возможность обновления с сервера
-	- Добавить API получения времени в формате JSON
+	- Добавить 12 часовой формат
 2.4
+	- Перевести документацию на английский
+	- Добавить API получения времени в формате JSON
+2.5
+	- Добавить возможность обновления с сервера (ntp)
+3.0
 	- Работа с невозможными параметрами времени (в сутках не 24 часа, в секунде не 1000мс)
+	- Работа в других системах счисления (2,8,16)
+
+Eng:
+2.3
+	- Fix bug with wrong time after alerts
+	- Add pm/am format
+2.4
+	- Translate docs to english
+	- Add API for get results in JSON
+2.5
+	- Add feature for update time from ntp-servers
+3.0
+	- Work with impossible parameters of time (in days not 24 hours, not seconds 1000ms)
+	- Work in other number systems (2,8,16)

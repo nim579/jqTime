@@ -1,6 +1,6 @@
 {
   "name": "jqTime",
-  "version": "2.2.4",
+  "version": "2.2.5",
   "title": "jqTime — jQuery time plugin",
   "description": "jqTime - this is a jQuery plugin that displays the time on the screen. The plugin contains many flexible settings.",
   "keywords": ["time", "timers", "watches"],
@@ -12,7 +12,7 @@
   "bugs": "https://github.com/nim579/jqTime/issues",
   "homepage": "http://dev.nim579.ru/jqTime/",
   "docs": "http://dev.nim579.ru/jqTime/docs/",
-  "download": "https://github.com/nim579/jqTime/tree/master/app",
+  "download": "https://github.com/nim579/jqTime/releases",
   "licenses": [
     {
       "type": "MIT",
