@@ -40,6 +40,7 @@ $.fn.jqTime = (mode, options, callback)->
                 @oldHtml = $(@).html()
                 
                 clearInterval @jqTimeTimer if @jqTimeTimer?
+
                 @jqTimeTimer = setInterval =>
                     JSON = $.jqTime.modes[mode].call context, @, options
                     callback(JSON) if callback? and typeof callback is "function"
