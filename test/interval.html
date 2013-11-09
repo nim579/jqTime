@@ -1,0 +1,246 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <link rel="stylesheet" href="../lib/qunit.css" type="text/css" media="screen">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <script type="text/javascript" src="../lib/qunit.js"></script>
+        <script type="text/javascript" src="../lib/jquery.min-1.7.2.js"></script>
+        <script type="text/javascript" src="../src/modes/helpers.js"></script>
+        <script type="text/javascript" src="../src/modes/interval.js"></script>
+        <script type="text/javascript">
+        $(function(){
+            $('#jqTime')[0].oldHtml = $('#jqTime').html();
+
+            test('$.jqTime.modes.interval Simple', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "H:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    i: 86398
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "23:59:59", 'Check time in element');
+                equal(callback.formated, "23:59:59", 'Check json formated');
+                equal(callback.hours, 23, 'Check json hours');
+                equal(callback.minutes, 59, 'Check json minutes');
+                equal(callback.seconds, 59, 'Check json seconds');
+                equal(callback.utc, "real", 'Check json utc');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.interval Exp', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: false,
+                    utc: 2,
+                    exp: "h*M.s",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 36001
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "10*00.2", 'Check time in element');
+                equal(callback.formated, "10*00.2", 'Check json formated');
+                equal(callback.utc, 2, 'Check json utc');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.interval Wrap (part 1)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: true,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "H:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    timeFrom: "10:00:00",
+                    timeTo: "13:00:00",
+                    i: 36058
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "02:59:01", 'Check time in element');
+                equal(callback.formated, "02:59:01", 'Check json formated');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.interval Wrap (part 2)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: true,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "H:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    timeFrom: "23:00:00",
+                    timeTo: "02:00:00",
+                    i: 86000
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "02:06:39", 'Check time in element');
+                equal(callback.formated, "02:06:39", 'Check json formated');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.interval A.M. (part 1)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: true,
+                    utc: 'real',
+                    exp: "h:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 46858
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "1:00:59", 'Check time in element');
+                equal(callback.formated, "1:00:59", 'Check json formated');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+                equal(callback.midday, "pm", 'Check json Midday');
+            });
+            test('$.jqTime.modes.interval Midday (part 2)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: true,
+                    utc: 'real',
+                    exp: "h:M:S d",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 43258
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "12:00:59 a.m.", 'Check time in element');
+                equal(callback.formated, "12:00:59 a.m.", 'Check json formated');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+                equal(callback.midday, "am", 'Check json Midday');
+            });
+            test('$.jqTime.modes.interval Midday (part 3)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: true,
+                    utc: 'real',
+                    exp: "h:M:S d",
+                    pm: 'p.m.',
+                    am: 'after midday',
+                    i: 0
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "0:00:01 after midday", 'Check time in element');
+                equal(callback.formated, "0:00:01 after midday", 'Check json formated');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+                equal(callback.midday, "am", 'Check json Midday');
+            });
+            test('$.jqTime.modes.interval Intervals out (part 1)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "h:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    timeFrom: "23:00:00",
+                    timeTo: "02:00:00",
+                    i: 32000
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal($(el).text(), "seta", 'Check time in element');
+                equal(callback.inInterval, false, 'Check json in intervel flag');
+                equal(callback.formated, 'seta', 'Check json formated');
+            });
+            test('$.jqTime.modes.interval Intervals out (part 2)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: true,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "h:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    timeFrom: "10:00:00",
+                    timeTo: "10:00:05",
+                    i: 35999
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+                equal($(el).text(), "0:00:05", 'Check time in element');
+
+            });
+            test('$.jqTime.modes.interval Intervals out (part 4) and Alt', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "h:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    timeFrom: "10:00:00",
+                    timeTo: "10:00:05",
+                    alt: '&nbsp;<i>seta1</i>',
+                    i: 35004
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.interval(el, options);
+
+                equal(callback.inInterval, false, 'Check json in intervel flag');
+                equal($(el).html(), "&nbsp;<i>seta1</i>", 'Check time in element');
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <h1 id="qunit-header">QUnit test env</h1>
+        <h2 id="qunit-banner"></h2>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests">
+        </ol>
+        <div id="jqTime">seta</div>
+    </body>
+</html>

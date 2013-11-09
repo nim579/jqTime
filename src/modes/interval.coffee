@@ -2,56 +2,68 @@ $.jqTime = {} unless $.jqTime?
 $.jqTime.modes = {} unless $.jqTime.modes?
 
 $.jqTime.modes.interval = (el, options)->
+    time =
+        utc: options.utc
+        formated: ''
+        inInterval: false
 
     i = el.jqTimeCurr
 
     i++
     i %= 86400
+
+    b = false
+
     if options.wrap
         if options.iFrom <= options.iTo
-            if i >= options.iFrom && i <= options.iTo
-                b = options.iTo - i
-            else
-              b = false
+            b = options.iTo - i if i >= options.iFrom && i <= options.iTo
+
         else
-            if (i >= options.iFrom && i <= 86400) || (i >= 0 && i <= options.iTo)
-                b = (86400 + options.iTo - i)%86400
-            else 
-                b = false
+            b = (86400 + options.iTo - i)%86400 if (i >= options.iFrom && i <= 86400) || (i >= 0 && i <= options.iTo)
+
     else
         if options.iFrom >= options.iTo
-            if (i >= options.iFrom && i <= 86400) || (i <= options.iTo && i >= 0)
-                b = i
-            else
-                b = false
+            b = i if (i >= options.iFrom && i <= 86400) || (i <= options.iTo && i >= 0)
+
         else
-            if i >= options.iFrom && i <= options.iTo
-                b = i
-            else
-                b = false
+            b = i if i >= options.iFrom && i <= options.iTo
 
-    unless b == false
-        hou = Math.floor b / 3600
-        min = Math.floor (b - hou * 3600) / 60
-        sec = Math.floor b - hou * 3600 - min * 60
+    unless b is false
+        time.inInterval = true
 
-        if options.format
-            hou = $.jqTime.helper.formater hou
-            min = $.jqTime.helper.formater min
-            sec = $.jqTime.helper.formater sec
+        time.hours = Math.floor b / 3600
+        time.minutes = Math.floor (b - time.hours * 3600) / 60
+        time.seconds = Math.floor b - time.hours * 3600 - time.minutes * 60
 
-        if options.exp?
-            return_str = $.jqTime.helper.expToTime options.exp, hou, min, sec
-        else
-            return_str = $.jqTime.helper.returnString options.template, options.sepor, hou, min, sec
+        if options.hour12
+            middayBoolean = Math.floor time.hours/13
+            time.hours -= 12*middayBoolean
+            time.midday = if !!middayBoolean then 'pm' else 'am'
 
-        $(el).text return_str
+        time.formated = $.jqTime.helper.expToTime(
+            options.exp
+            time.hours
+            time.minutes
+            time.seconds
+            if time.midday? then {
+                now: time.midday
+                pm: options.pm
+                am: options.am
+            }
+        )
+
+        $(el).html time.formated
     else
         if options.alt?
             $(el).html options.alt
+            time.formated = options.alt
+
         else
             $(el).html el.oldHtml
+            time.formated = el.oldHtml
 
     el.jqTimeCurr = i
 
     i = $.jqTime.helper.updater i, options.utc
+
+    return time

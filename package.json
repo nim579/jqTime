@@ -7,7 +7,7 @@
     "promo": "http://dev.nim579.ru/jqTime/",
     "documentation": "http://dev.nim579.ru/jqTime/docs/"
   },
-  "version": "2.2.5",
+  "version": "2.3.0",
   "app": {
     "root": "src/",
     "pub": "app/",
@@ -34,7 +34,12 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "grunt": "0.3.17",
-    "grunt-exec": "0.3.0"
+    "grunt": "~0.4.1",
+    "grunt-exec": "0.3.0",
+    "grunt-contrib-concat": "~0.3.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-uglify": "~0.2.6",
+    "grunt-contrib-qunit": "~0.3.0",
+    "coffee-script": "~1.6.3"
   }
 }

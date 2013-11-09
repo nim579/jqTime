@@ -48,10 +48,11 @@ $.jqTime.helper =
                 time += Math.floor( Number i ) * Math.pow(60, 2-v)
 
             return time
+
         else
             return null
 
-    expToTime: (str, hou, min, sec)->
+    expToTime: (str, hou, min, sec, midday)->
         if str && typeof str is 'string'
             if hou? and typeof hou is 'string' or typeof hou is 'number'
                 str = str.replace /([h]+)/g, hou
@@ -65,6 +66,25 @@ $.jqTime.helper =
                 str = str.replace /([s]+)/g, sec
                 str = str.replace /([S]+)/g, @formater sec
 
+            if midday? and ( midday.now is 'am' or midday.now is 'pm' )
+                str = str.replace /([d]+)/g, midday[midday.now]
+                str = str.replace /([D]+)/g, midday[midday.now]
+
+            else
+                str = str.replace /([d]+)/g, ''
+                str = str.replace /([D]+)/g, ''
+
             return str
 
         return null
+
+    # Method of Underscoreю.js, not tested
+    filter: (obj, iterator, context)->
+        results = []
+        return results unless obj?
+        return obj.filter(iterator, context) if  Array.prototype.filter and obj.filter == Array.prototype.filter
+
+        each obj, (value, index, list)->
+            results[results.length] = value if iterator.call context, value, index, list
+
+        return results
