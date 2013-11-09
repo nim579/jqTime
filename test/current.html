@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <link rel="stylesheet" href="../lib/qunit.css" type="text/css" media="screen">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <script type="text/javascript" src="../lib/qunit.js"></script>
+        <script type="text/javascript" src="../lib/jquery.min-1.7.2.js"></script>
+        <script type="text/javascript" src="../src/modes/helpers.js"></script>
+        <script type="text/javascript" src="../src/modes/current.js"></script>
+        <script type="text/javascript">
+            test('$.jqTime.modes.current Simple', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "H:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 86398
+                };
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.current(el, options);
+
+                equal($(el).text(), "23:59:59", 'Check time in element');
+                equal(callback.formated, "23:59:59", 'Check json formated');
+                equal(callback.hours, 23, 'Check json hours');
+                equal(callback.minutes, 59, 'Check json minutes');
+                equal(callback.seconds, 59, 'Check json seconds');
+                equal(callback.utc, "real", 'Check json utc');
+            });
+            test('$.jqTime.modes.current Exp', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: false,
+                    utc: 2,
+                    exp: "h*M.s",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 36001
+                };
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.current(el, options);
+
+                equal($(el).text(), "10*00.2", 'Check time in element');
+                equal(callback.formated, "10*00.2", 'Check json formated');
+                equal(callback.utc, 2, 'Check json utc');
+            });
+            test('$.jqTime.modes.current Wrap', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: true,
+                    hour12: false,
+                    utc: 'real',
+                    exp: "H:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 36058
+                };
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.current(el, options);
+
+                equal($(el).text(), "13:59:01", 'Check time in element');
+                equal(callback.formated, "13:59:01", 'Check json formated');
+            });
+            test('$.jqTime.modes.current A.M. (part 1)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: true,
+                    utc: 'real',
+                    exp: "h:M:S",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 46858
+                };
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.current(el, options);
+
+                equal($(el).text(), "1:00:59", 'Check time in element');
+                equal(callback.formated, "1:00:59", 'Check json formated');
+                equal(callback.midday, "pm", 'Check json Midday');
+            });
+            test('$.jqTime.modes.current Midday (part 2)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: true,
+                    utc: 'real',
+                    exp: "h:M:S d",
+                    pm: 'p.m.',
+                    am: 'a.m.',
+                    i: 43258
+                };
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.current(el, options);
+
+                equal($(el).text(), "12:00:59 a.m.", 'Check time in element');
+                equal(callback.formated, "12:00:59 a.m.", 'Check json formated');
+                equal(callback.midday, "am", 'Check json Midday');
+            });
+            test('$.jqTime.modes.current Midday (part 3)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    wrap: false,
+                    hour12: true,
+                    utc: 'real',
+                    exp: "h:M:S d",
+                    pm: 'p.m.',
+                    am: 'after midday',
+                    i: 0
+                };
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.current(el, options);
+
+                equal($(el).text(), "0:00:01 after midday", 'Check time in element');
+                equal(callback.formated, "0:00:01 after midday", 'Check json formated');
+                equal(callback.midday, "am", 'Check json Midday');
+            });
+        </script>
+    </head>
+    <body>
+        <h1 id="qunit-header">QUnit test env</h1>
+        <h2 id="qunit-banner"></h2>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests">
+        </ol>
+        <div id="jqTime"></div>
+    </body>
+</html>

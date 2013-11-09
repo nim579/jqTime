@@ -40,6 +40,7 @@
                 ok($.jqTime.helper.stingToTime('1113') == 4006800, 'Нет временных параметров');
                 ok($.jqTime.helper.stingToTime('9:9:9:9') == 32949, 'Слишком много параметров');
                 ok($.jqTime.helper.stingToTime('9.9:0:0') == 32400, 'Дробное число');
+                ok($.jqTime.helper.stingToTime(32400) == 32400, 'Передано готовое число');
             });
 
             test('$.jqTime.helper.expToTime()', function() {

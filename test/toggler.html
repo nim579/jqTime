@@ -1,0 +1,190 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <link rel="stylesheet" href="../lib/qunit.css" type="text/css" media="screen">
+        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+        <script type="text/javascript" src="../lib/qunit.js"></script>
+        <script type="text/javascript" src="../lib/jquery.min-1.7.2.js"></script>
+        <script type="text/javascript" src="../src/modes/helpers.js"></script>
+        <script type="text/javascript" src="../src/modes/toggler.js"></script>
+        <script type="text/javascript">
+        $(function(){
+            $('#jqTime')[0].oldHtml = $('#jqTime').html();
+
+            test('$.jqTime.modes.toggler Simple (part1)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    i: 86397
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.toggler(el, options);
+
+                equal($(el).is(':hidden'), false, 'Check element visibility');
+                equal(callback.formated, "", 'Check json formated');
+                equal(callback.utc, "real", 'Check json utc');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.toggler Simple (part2)', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    i: 86399
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.toggler(el, options);
+
+                equal($(el).is(':hidden'), true, 'Check element visibility');
+                equal(callback.formated, null, 'Check json formated');
+                equal(callback.utc, "real", 'Check json utc');
+                equal(callback.inInterval, false, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.toggler Content in', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    inInterval: '<i>in</i>',
+                    outInterval: '<i>out</i>',
+                    i: 86397
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.toggler(el, options);
+
+                equal($(el).html(), '<i>in</i>', 'Check html in element');
+                equal(callback.formated, '<i>in</i>', 'Check json formated');
+                equal(callback.utc, "real", 'Check json utc');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.toggler Content out', function () {
+                var el = $('#jqTime')[0];
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    inInterval: '<i>in</i>',
+                    outInterval: '<i>out</i>',
+                    i: 12312
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.toggler(el, options);
+
+                equal($(el).html(), '<i>out</i>', 'Check html in element');
+                equal(callback.formated, '<i>out</i>', 'Check json formated');
+                equal(callback.utc, "real", 'Check json utc');
+                equal(callback.inInterval, false, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.toggler Function out', function () {
+                var el = $('#jqTimeFoo')[0];
+                var flag = 'seta';
+                inFoo = function(){flag = 'inInterval';}
+                outFoo = function(){flag = 'outInterval';}
+
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    inInterval: inFoo,
+                    outInterval: outFoo,
+                    i: 12312
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.toggler(el, options);
+
+                equal(flag, 'outInterval', 'Check call function');
+                equal(callback.inInterval, false, 'Check json in intervel flag');
+            });
+            test('$.jqTime.modes.toggler Function In', function () {
+                var el = $('#jqTimeFoo')[0];
+                var flag = 'seta';
+                inFoo = function(){flag = 'inInterval';}
+                outFoo = function(){flag = 'outInterval';}
+
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    inInterval: inFoo,
+                    outInterval: outFoo,
+                    i: 86397
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+                var callback = $.jqTime.modes.toggler(el, options);
+
+                equal(flag, 'inInterval', 'Check call function');
+                equal(callback.inInterval, true, 'Check json in intervel flag');
+            });
+            asyncTest('$.jqTime.modes.toggler Event In', function () {
+                var el = $('#jqTimeEv')[0];
+                var flag = 'seta';
+
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    i: 86397
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+
+                $(el).bind('inInterval.jqTime', function(){
+                    ok(true, 'Event called');
+                    start()
+                })
+
+                var callback = $.jqTime.modes.toggler(el, options);
+            });
+            asyncTest('$.jqTime.modes.toggler Event Out', function () {
+                var el = $('#jqTimeEv')[0];
+                var flag = 'seta';
+
+                var options = {
+                    utc: 'real',
+                    timeFrom: "23:00:00",
+                    timeTo: "23:59:59",
+                    i: 12312
+                };
+                options.iFrom = $.jqTime.helper.stingToTime(options.timeFrom)
+                options.iTo = $.jqTime.helper.stingToTime(options.timeTo)
+                el.jqTimeCurr = options.i;
+
+                $(el).bind('outInterval.jqTime', function(){
+                    ok(true, 'Event called');
+                    start()
+                })
+
+                var callback = $.jqTime.modes.toggler(el, options);
+            });
+        });
+        </script>
+    </head>
+    <body>
+        <h1 id="qunit-header">QUnit test env</h1>
+        <h2 id="qunit-banner"></h2>
+        <h2 id="qunit-userAgent"></h2>
+        <ol id="qunit-tests">
+        </ol>
+        <div id="jqTime">seta</div>
+        <div id="jqTimeFoo">seta</div>
+        <div id="jqTimeEv">seta</div>
+    </body>
+</html>

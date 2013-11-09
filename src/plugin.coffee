@@ -1,34 +1,27 @@
 $.jqTime = {}
 
-$.fn.jqTime = (mode, options, customTime)->
+$.fn.jqTime = (mode, options, callback)->
 
     options = $.extend {
-                sepor: ':'
-                wrap: false
-                format: true
-                utc: 'real'
-                template: 'hms'
-                exp: null
-                timeFrom: ''
-                timeTo: ''
-                alt: null
-                inInterval: null
-                outInterval: null
+        wrap: false
+        hour12: false
+        utc: 'real'
+        exp: 'HH:MM:SS d'
+        timeFrom: ''
+        timeTo: ''
+        alt: null
+        inInterval: null
+        outInterval: null
+        pm: 'p.m.'
+        am: 'a.m.'
     }, options
 
-    if customTime?
-        if customTime instanceof window.Date && customTime.getHours?
-            options.today = customTime
-        else if typeof customTime is 'string'
-            options.today = new Date(customTime)
-        else
-            options.today = new Date()
-    else
-        options.today = new Date()
+    context = @
+
+    options.today = new Date()
 
     options.i = 3600 * options.today.getHours() + 60 * options.today.getMinutes() + options.today.getSeconds()
-    options.i += eval(options.today.getTimezoneOffset()*60 + options.utc*3600) if options.utc != 'real'
-    seeta = 'ter'
+    options.i += ( options.today.getTimezoneOffset() * 60 + options.utc * 3600 ) if options.utc != 'real'
 
     options.iFrom = $.jqTime.helper.stingToTime options.timeFrom
     options.iTo = $.jqTime.helper.stingToTime options.timeTo
@@ -39,7 +32,8 @@ $.fn.jqTime = (mode, options, customTime)->
             $el = $(@)
 
             if mode is 'clear'
-                $.jqTime.modes[mode](@)
+                $.jqTime.modes[mode].call context, @
+
             else
                 @jqTimeCurr = options.i
                 @jqTimeToggle = null
@@ -47,7 +41,8 @@ $.fn.jqTime = (mode, options, customTime)->
                 
                 clearInterval @jqTimeTimer if @jqTimeTimer?
                 @jqTimeTimer = setInterval =>
-                    $.jqTime.modes[mode](@, options)
+                    JSON = $.jqTime.modes[mode].call context, @, options
+                    callback(JSON) if callback? and typeof callback is "function"
                 , 1000
 
 
