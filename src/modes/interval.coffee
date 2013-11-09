@@ -54,6 +54,8 @@ $.jqTime.modes.interval = (el, options)->
 
         $(el).html time.formated
     else
+        time.inInterval = false
+
         if options.alt?
             $(el).html options.alt
             time.formated = options.alt
