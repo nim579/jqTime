@@ -6,7 +6,6 @@
   $.jqTime.helper = {
     returnString: function(tmpl, sepor, hou, min, sec) {
       var i, result, sar, _i, _len;
-
       if (tmpl == null) {
         tmpl = "hms";
       }
@@ -61,7 +60,6 @@
     },
     updater: function(increment, utc) {
       var today;
-
       if (increment % 300 === 0) {
         today = new Date();
         increment = 3600 * today.getHours() + 60 * today.getMinutes() + today.getSeconds();
@@ -73,7 +71,6 @@
     },
     stingToTime: function(string) {
       var arr, i, time, v, _i, _len;
-
       if (string != null) {
         time = 0;
         if (!string) {
@@ -97,7 +94,7 @@
         return null;
       }
     },
-    expToTime: function(str, hou, min, sec) {
+    expToTime: function(str, hou, min, sec, midday) {
       if (str && typeof str === 'string') {
         if ((hou != null) && typeof hou === 'string' || typeof hou === 'number') {
           str = str.replace(/([h]+)/g, hou);
@@ -111,9 +108,32 @@
           str = str.replace(/([s]+)/g, sec);
           str = str.replace(/([S]+)/g, this.formater(sec));
         }
+        if ((midday != null) && (midday.now === 'am' || midday.now === 'pm')) {
+          str = str.replace(/([d]+)/g, midday[midday.now]);
+          str = str.replace(/([D]+)/g, midday[midday.now]);
+        } else {
+          str = str.replace(/([d]+)/g, '');
+          str = str.replace(/([D]+)/g, '');
+        }
         return str;
       }
       return null;
+    },
+    filter: function(obj, iterator, context) {
+      var results;
+      results = [];
+      if (obj == null) {
+        return results;
+      }
+      if (Array.prototype.filter && obj.filter === Array.prototype.filter) {
+        return obj.filter(iterator, context);
+      }
+      each(obj, function(value, index, list) {
+        if (iterator.call(context, value, index, list)) {
+          return results[results.length] = value;
+        }
+      });
+      return results;
     }
   };
 

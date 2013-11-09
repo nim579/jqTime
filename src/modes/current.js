@@ -8,8 +8,14 @@
   }
 
   $.jqTime.modes.current = function(el, options) {
-    var hou, i, min, return_str, sec, w;
-
+    var i, middayBoolean, time, w;
+    time = {
+      hours: 0,
+      minutes: 0,
+      seconds: 0,
+      utc: options.utc,
+      formated: ''
+    };
     i = el.jqTimeCurr;
     i++;
     i %= 86400;
@@ -20,20 +26,20 @@
     if (options.wrap) {
       w = 86400 - w;
     }
-    hou = Math.floor(w / 3600);
-    min = Math.floor((w - hou * 3600) / 60);
-    sec = Math.floor(w - hou * 3600 - min * 60);
-    if (options.format) {
-      hou = $.jqTime.helper.formater(hou);
-      min = $.jqTime.helper.formater(min);
-      sec = $.jqTime.helper.formater(sec);
+    time.hours = Math.floor(w / 3600);
+    time.minutes = Math.floor((w - time.hours * 3600) / 60);
+    time.seconds = Math.floor(w - time.hours * 3600 - time.minutes * 60);
+    if (options.hour12) {
+      middayBoolean = Math.floor(time.hours / 13);
+      time.hours -= 12 * middayBoolean;
+      time.midday = !!middayBoolean ? 'pm' : 'am';
     }
-    if (options.exp != null) {
-      return_str = $.jqTime.helper.expToTime(options.exp, hou, min, sec);
-    } else {
-      return_str = $.jqTime.helper.returnString(options.template, options.sepor, hou, min, sec);
-    }
-    $(el).text(return_str);
+    time.formated = $.jqTime.helper.expToTime(options.exp, time.hours, time.minutes, time.seconds, time.midday != null ? {
+      now: time.midday,
+      pm: options.pm,
+      am: options.am
+    } : void 0);
+    $(el).html(time.formated);
     el.jqTimeCurr = i;
     return i = $.jqTime.helper.updater(i, options.utc);
   };
