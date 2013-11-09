@@ -29,7 +29,7 @@
     <body data-spy="scroll" data-target=".nav-list">
         <header class="jumbotron subhead" id="overview">
             <div class="container">
-                <a href="/jqTime/"><img src="../material/logo.png" alt="jqTuery"></a>
+                <a href="/jqTime/" class="logo_wrapper"><h1 class="logo">jqTime</h1></a>
             </div>
         </header>
         <div class="container">
@@ -39,7 +39,7 @@
                 <nav>
                     <div class="span3 bs-docs-sidebar">
                         <ul class="nav nav-list bs-docs-sidenav" id="">
-                            <li class="active"><a href="#func"><i class="icon-chevron-right"></i> Функции и их описание</a></li>
+                            <li class="active"><a href="#func"><i class="icon-chevron-right"></i> Возможности</a></li>
                             <li><a href="/jqTime/docs/demos.html"><i class="icon-chevron-right"></i> Демо страница</a></li>
                             <li><a href="#tech"><i class="icon-chevron-right"></i> Технические требования</a></li>
                             <li><a href="#gopt"><i class="icon-chevron-right"></i> Общие свойства функций</a></li>
@@ -55,7 +55,7 @@
                 
                 <div class="span9" data-spy="scroll">
                     <div class="page-header">
-                        <h1>jqTime <span class="badge badge-success">2.2</span></h1>
+                        <h1>jqTime <span class="badge badge-success">2.3</span></h1>
                         <p>&mdash;&nbsp;это jQuery плагин, выводящий время на&nbsp;экран. Плагин содержит в&nbsp;себе множество гибких настроек.</p>
                         <div class="alert">
                             <strong>Внимание!</strong> Начиная с версии 2.2.0 плагин не совместим с предыдущими версиями. Обновите свои скрипты в&nbsp;соответствии с&nbsp;новой документацией. Там нет ничего сложного.
@@ -64,7 +64,7 @@
                     <p class="lead"><a href="/jqTime/docs/demos.html">Посмотреть</a> демо</p>
                     <section id="func">
                         <div class="page-header">
-                            <h2>Функции и&nbsp;их&nbsp;описание</h2>
+                            <h2>Возможности</h2>
                         </div>
 
                         <p>
@@ -95,7 +95,7 @@
 
                         <p>Для работы плагина требуется подключение <a href="//jquery.com">jQuery</a>. Плагин тестировался на&nbsp;версии 1.7.2, но&nbsp;должен поддерживаться вплоть до&nbsp;1.4.*.</p>
                         
-                        <pre>$(selector).jqTime(mode, [options], [custom_time]);</pre>
+                        <pre>$(selector).jqTime(mode, [options], [callback]);</pre>
                         
                         <h3>Примеры кода</h3>
                         
@@ -124,8 +124,22 @@
 
                         <p>Все функции могут работать в&nbsp;часовом поясе пользователя зашедшего на&nbsp;сайт, или в&nbsp;заданом часовом поясе UTC <nobr>(&plusmn;0&ndash;12).</nobr></p>
                         
-                        <p>Можно указать третьим параметром любое время (в фотмате Date, или валидной строкой, которое поддерживает javascript класс Date), и плагин будет считать время от указаного:</p>
-                        <pre>$('element').jqTime('current', {}, new Date());</pre>
+                        <p>Можно указать третьим параметром callback, который будет вызываться каждую секунду. В него будет передано время в формате JSON:</p>
+                        <pre>$('element').jqTime('current', {}, function(JSONdata){
+    console.log(JSONdata);
+});</pre>
+
+                        <p>Все возможные поля JSON:</p>
+                        <pre>{
+    hours: 0,
+    minutes: 0,
+    seconds: 0,
+    utc: 'real', // часовой пояс, с которым сейчас работает плагин
+    formated: '12:00:00', // отформатированная строка, или содержимое. Это же содержимое будет показано в выбраном элемента
+    midday: 'am', // или pm. будет показано, только если включен 12-часовой формат
+    inInterval: true, // boolean для interval и toggler, для multi будет строка с id в формате *interval<id>*
+}
+</pre>
     
                     </section>
                     <section id="cT">
@@ -139,25 +153,23 @@
                             <dt>wrap</dt>
                             <dd><span class="label label-info">boolean</span> Если <code>true</code>, отсчитывает время в обратную сторону (до конца дня). По умолчанию <code>false</code>.</dd>
                             
-                            <dt>sepor</dt>
-                            <dd><span class="label label-info">string</span> Задает символ, которым разделяется время, например, если задан <code>":"</code>, выдает время <strong>00:00:00</strong>. По умолчанию <code>":"</code>.</dd>
-                            
                             <dt>utc</dt>
                             <dd><span class="label label-info">numetic</span> Выводит время в любом часовом поясе <abbr title="Всемирное координированное время">UTC</abbr> Если установлено значение <code>"real"</code> — будет выводить текуще время на машине пользователя. По умолчанию <code>"real"</code>.</dd>
-                            
-                            <dt>format</dt>
-                            <dd><span class="label label-info">boolean</span> Если установлено значение <code>true</code>, то добавляется 0 к времени, если оно меньше 10, например: <strong>09</strong>. При <code>false</code> число будет обображаться без 0, например: <strong>9</strong>. По умолчанию <code>true</code>.</dd>
+
+                            <dt>hour12</dt>
+                            <dd><span class="label label-info">boolean</span> Если true, то будет показывать время в 12-часовом формате. По умолчанию false</dd>
+
+                            <dt>am, pm</dt>
+                            <dd><span class="label label-info">string</span> Строки, соответствующие am и pm времени. По умолчанию a.m. и p.m. соответственно. Их можно увидеть, если добавить в <code>exp</code> маску D (HH:MM:SS D, будет 12:00:00 a.m.)</dd>
                             
                             <dt>exp</dt>
-                            <dd><span class="label label-info">RegExp</span> Если не <code>null</code>, отменяет опции <code>sepor</code> и <code>format</code>, и выводит время в соответствии с заданным регулярным выражением. По умолчанию <code>null</code>. Подробнее описано в главе <a href="#tech">&laquo;Технические требования и примеры вывода&raquo;</a></dd>
+                            <dd><span class="label label-info">RegExp</span> Если не <code>null</code>, выводит время в соответствии с заданным регулярным выражением. По умолчанию <code>HH:MM:SS d</code>. Подробнее описано в главе <a href="#gFunc">&laquo;Вспомогательные функции&raquo;</a></dd>
                             
                         </dl>
                         <h3>Пример</h3>
                         <pre>$('#element').jqTime('current', {
-    sepor: ':',
     wrap: true,
     utc: 0,
-    format: false,
     exp: 'hh:MM:ss'
 });</pre>
                     </section>
@@ -171,19 +183,19 @@
                             
                             <dt>wrap</dt>
                             <dd><span class="label label-info">boolean</span> Если <code>true</code>, отсчитывает время до <code>timeTo</code>. По умолчанию <code>false</code>.</dd>
-                            
-                            <dt>sepor</dt>
-                            <dd><span class="label label-info">string</span> Задает символ, которым разделяется время, например, если задан <code>":"</code>, выдает время <strong>00:00:00</strong>. По умолчанию <code>":"</code>.</dd>
-                            
+
                             <dt>utc</dt>
                             <dd><span class="label label-info">numetic</span> Выводит таймер в любом часовом поясе <abbr title="Всемирное координированное время">UTC</abbr> Если установлено значение <code>"real"</code> &mdash; таймер будет работать со временем на машине пользователя. По умолчанию <code>"real"</code>.</dd>
-                            
-                            <dt>format</dt>
-                            <dd><span class="label label-info">boolean</span> Если установлено значение <code>true</code>, то добавляется 0 к времени, если оно меньше 10, например: <strong>09</strong>. При <code>false</code> число будет обображаться без 0, например: <strong>9</strong>. По умолчанию <code>true</code>.</dd>
-                            
+
+                            <dt>hour12</dt>
+                            <dd><span class="label label-info">boolean</span> Если true, то будет показывать время в 12-часовом формате. По умолчанию false</dd>
+
+                            <dt>am, pm</dt>
+                            <dd><span class="label label-info">string</span> Строки, соответствующие am и pm времени. По умолчанию a.m. и p.m. соответственно. Их можно увидеть, если добавить в <code>exp</code> маску D (HH:MM:SS D, будет 12:00:00 a.m.)</dd>
+
                             <dt>exp</dt>
-                            <dd><span class="label label-info">RegExp</span> Если не <code>null</code>, отменяет опции <code>sepor</code> и <code>format</code>, и выводит время в соответствии с заданным регулярным выражением. По умолчанию <code>null</code>. Подробнее описано в главе <a href="#tech">&laquo;Технические требования и примеры вывода&raquo;</a></dd>
-                            
+                            <dd><span class="label label-info">RegExp</span> Если не <code>null</code>, выводит время в соответствии с заданным регулярным выражением. По умолчанию <code>null</code>. Подробнее описано в главе <a href="#gFunc">&laquo;Вспомогательные функции&raquo;</a></dd>
+
                             <dt>timeFrom</dt>
                             <dd><span class="label label-info">hh:mm:ss</span> Задает время, с которого будет включаться таймер. Используется строка по шаблону <code>"0:0:0"</code>. Параметр обязателен, по умолчанию ничего не задано.</dd>
 
@@ -192,7 +204,7 @@
 
                             <dt>alt</dt>
                             <dd><span class="label label-info">string, html</span> Выведет текст или HTML вне промежутка времени <strong>timeFrom &ndash; timeTo</strong>. Если <code>null</code>, покажет изначальное содержимое. По умолчанию <code>null</code>.</dd>
-                            
+
                         </dl>
                         <h3>Пример</h3>
                         <pre>$('#element2').jqTime('interval', {
@@ -236,20 +248,23 @@
                     </section>
                     <section id="gFunc">
                         <div class="page-header">
-                            <h2>Вспомогательные функции JavaScript</h2>
+                            <h2>Вспомогательные функции</h2>
                         </div>
                         <p>В плагине используются вспомогательные функции, которые тоже могут быть полезными. Они находятся в объекте <code>$.jqTime.helper</code></p>
                         <h3>Опции</h3>
                         <dl class="dl-horizontal">
                             
                             <dt>formater</dt>
-                            <dd><code>$.jqTime.helper.formater(number)</code> Если переданное число меньше 9, то функция добавит перед числом 0, и вернет строку.</dd>
+                            <dd><code>$.jqTime.helper.formater(number)</code><br>Если переданное число меньше 9, то функция добавит перед числом 0, и вернет строку.</dd>
                             
                             <dt>stingToTime</dt>
-                            <dd><code>$.jqTime.helper.sting_to_time(hh:mm:ss)</code> Забирает строку в формате <code>"0:0:0"</code>. Возвращает заданое время в секундах.</dd>
+                            <dd><code>$.jqTime.helper.sting_to_time(hh:mm:ss)</code><br>Забирает строку в формате <code>"0:0:0"</code>. Возвращает заданое время в секундах.</dd>
 
                             <dt>updater</dt>
-                            <dd><code>$.jqTime.helper.updater(seconds, utc)</code> Забирает время в секундах, если время кратно 300 секундам (5 минут), обновляет его, и возвращает текущее время в секундах.</dd>
+                            <dd><code>$.jqTime.helper.updater(seconds, utc)</code><br>Забирает время в секундах, если время кратно 300 секундам (5 минут), обновляет его, и возвращает текущее время в секундах.</dd>
+
+                            <dt>expToTime</dt>
+                            <dd><code>$.jqTime.helper.expToTime(expr, hours, minutes, seconds, midday)</code><br>Возвращает отформатированное время. Поддерживает следующие маски (H, h, M, m, S, s, D, d). Маски в верхнем регистре будут отформатированы (добавлен 0 в начало). D — значение полудня. Midday — обьект с полями: now (pm/am) — флаг текушего полудня, am — текст до полудня, pm — текст после полудня.</dd>
                             
                         </dl>
                     </section>
@@ -257,7 +272,7 @@
                         <div class="page-header">
                             <h2>Тестирование и сборка</h2>
                         </div>
-                        <p>В проекте используется <a href="/jqTime/test/helper.html">тестирование</a> с помощью qUnit. Пока весь проект не покрыт тестами, но тесты дописываются постоянно.</p>
+                        <p>В проекте используется тестирование с помощью qUnit. Пока весь проект не покрыт тестами, но тесты дописываются постоянно.</p>
                         <p>Разработка проекта ведется с методологией Continuous Integration, автоматизированное тестирование работает на <a href="https://travis-ci.org/nim579/jqTime">Travis CI</a>.</p>
                         <p>Для сборки проекта используется Grunt.js.</p>
                     </section>

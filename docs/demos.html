@@ -11,7 +11,7 @@
         <link href="../material/bootstrap/css/customize.css" rel="stylesheet">
         <script type="text/javascript" src="http://yandex.st/jquery/1.8.1/jquery.min.js"></script>
         <script type="text/javascript" src="../material/bootstrap/js/bootstrap.js"></script>
-        <script type="text/javascript" src="../app/jqTime-2.2.5.js"></script>
+        <script type="text/javascript" src="../app/jqTime-2.3.0.js"></script>
         <script type="text/javascript">
             var $current = {}
             var currTimer = null;
@@ -29,21 +29,23 @@
                 $current = {
                     wrap: $('#currWrap'),
                     utc: $('#currUtc'),
-                    sepor: $('#currSepor'),
-                    format: $('#currFormat'),
+                    hour12: $('#currHour12'),
+                    pm: $('#currPm'),
+                    am: $('#currAm'),
                     exp: $('#currExp')
                 }
                 function setCurrent(){
                     $('#pCur').jqTime('clear').jqTime('current', {
                         wrap: !!$current.wrap.attr('checked'),
                         utc: ( !!$current.utc.val() ? $current.utc.val() : void 0 ),
-                        sepor: ( !!$current.sepor.val() ? $current.sepor.val() : void 0 ),
-                        format: !!$current.format.attr('checked'),
+                        hour12: !!$current.hour12.attr('checked'),
+                        pm: ( !!$current.pm.val() ? $current.pm.val() : void 0 ),
+                        am: ( !!$current.am.val() ? $current.am.val() : void 0 ),
                         exp: ( !!$current.exp.val() ? $current.exp.val() : void 0 )
                     });
                 }
                 setCurrent();
-                $('#currWrap, #currUtc, #currSepor, #currFormat, #currExp').bind('change keyup', function(e){
+                $('#currWrap, #currUtc, #currHour12, #currPm, #currAm, #currExp').bind('change keyup', function(e){
                     clearTimeout(currTimer);
                     currTimer = setTimeout(function(){
                             $(e.currentTarget).parent().find('.help-line').fadeIn(100).delay(500).fadeOut(500);
@@ -54,8 +56,9 @@
                 $interval = {
                     wrap: $('#intervalWrap'),
                     utc: $('#intervalUtc'),
-                    sepor: $('#intervalSepor'),
-                    format: $('#intervalFormat'),
+                    hour12: $('#intervalHour12'),
+                    pm: $('#intervalPm'),
+                    am: $('#intervalAm'),
                     exp: $('#intervalExp'),
                     timeFrom: $('#intervalTFrom'),
                     timeTo: $('#intervalTTo'),
@@ -65,8 +68,9 @@
                     $('#pInter').jqTime('clear').jqTime('interval', {
                         wrap: !!$interval.wrap.attr('checked'),
                         utc: ( !!$interval.utc.val() ? $interval.utc.val() : void 0 ),
-                        sepor: ( !!$interval.sepor.val() ? $interval.sepor.val() : void 0 ),
-                        format: !!$interval.format.attr('checked'),
+                        hour12: !!$interval.hour12.attr('checked'),
+                        pm: ( !!$interval.pm.val() ? $interval.pm.val() : void 0 ),
+                        am: ( !!$interval.am.val() ? $interval.am.val() : void 0 ),
                         exp: ( !!$interval.exp.val() ? $interval.exp.val() : void 0 ),
                         timeFrom: ( !!$interval.timeFrom.val() ? $interval.timeFrom.val() : void 0 ),
                         timeTo: ( !!$interval.timeTo.val() ? $interval.timeTo.val() : void 0 ),
@@ -74,7 +78,7 @@
                     });
                 }
                 setInterv();
-                $('#intervalWrap, #intervalUtc, #intervalSepor, #intervalFormat, #intervalExp, #intervalTFrom, #intervalTTo, #intervalAlt').bind('change keyup', function(e){
+                $('#intervalWrap, #intervalUtc, #intervalHour12, #intervalPm, #intervalAm, #intervalExp, #intervalTFrom, #intervalTTo, #intervalAlt').bind('change keyup', function(e){
                     clearTimeout(interTimer);
                     interTimer = setTimeout(function(){
                             $(e.currentTarget).parent().find('.help-line').fadeIn(100).delay(500).fadeOut(500);
@@ -112,7 +116,7 @@
     <body data-spy="scroll" data-target=".nav-list">
         <header class="jumbotron subhead" id="overview">
             <div class="container">
-                <a href="/jqTime/"><img src="../material/logo.png" alt="jqTime"></a>
+                <a href="/jqTime/" class="logo_wrapper"><h1 class="logo">jqTime</h1></a>
             </div>
         </header>
         <div class="container">
@@ -133,7 +137,7 @@
                 
                 <div class="span9" data-spy="scroll">
                     <div class="page-header">
-                        <h1>jqTime <span class="badge badge-success">2.2</span></h1>
+                        <h1>jqTime <span class="badge badge-success">2.3</span></h1>
                         <p>&mdash;&nbsp;это jQuery плагин, выводящий время на&nbsp;экран. Плагин содержит в&nbsp;себе множество гибких настроек.</p>
                     </div>
                     <p class="lead"><a href="/jqTime/docs/">Читать</a> документацию</p>
@@ -162,25 +166,33 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="currSepor">sepor</label>
+                                <label class="control-label" for="currHour12">hour12</label>
                                 <div class="controls">
-                                    <input type="text" id="currSepor" placeholder='For example: ":"'>
+                                    <input type="checkbox" id="currHour12">
                                     <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
-                                    <span class="help-block">Устанавливает разделитель. Работает только если не задано поле <b>exp</b></span>
+                                    <span class="help-block">Если отметить, будет показывать время в 12-часовом формате</span>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="currFormat">format</label>
+                                <label class="control-label" for="currPm">pm</label>
                                 <div class="controls">
-                                    <input type="checkbox" id="currFormat">
+                                    <input type="text" id="currPm" placeholder="For example: p.m." value="p.m.">
                                     <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
-                                    <span class="help-block">Форматирует время (если <10, то добавляет 0 в начало &mdash; 09)</span>
+                                    <span class="help-block">Устанавливает значение приписки для времени после полудня</span>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label" for="currAm">am</label>
+                                <div class="controls">
+                                    <input type="text" id="currAm" placeholder="For example: a.m." value="a.m.">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Устанавливает значение приписки для времени после полудня</span>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label" for="currExp">exp</label>
                                 <div class="controls">
-                                    <input type="text" id="currExp" placeholder="HH:MM:SS">
+                                    <input type="text" id="currExp" placeholder="HH:MM:SS d">
                                     <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
                                 </div>
                             </div>
@@ -211,21 +223,28 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="intervalSepor">sepor</label>
+                                <label class="control-label" for="intervalHour12">hour12</label>
                                 <div class="controls">
-                                    <input type="text" id="intervalSepor" placeholder='For example: ":"'>
+                                    <input type="checkbox" id="intervalHour12">
                                     <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
-                                    <span class="help-block">Устанавливает разделитель. Работает только если не задано поле <b>exp</b></span>
+                                    <span class="help-block">Если отметить, будет показывать время в 12-часовом формате</span>
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label" for="intervalFormat">format</label>
+                                <label class="control-label" for="intervalPm">pm</label>
                                 <div class="controls">
-                                    <input type="checkbox" id="intervalFormat">
+                                    <input type="text" id="intervalPm" placeholder="For example: p.m." value="p.m.">
                                     <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
-                                    <span class="help-block">Форматирует время (если <10, то добавляет 0 в начало &mdash; 09)</span>
+                                    <span class="help-block">Устанавливает значение приписки для времени после полудня</span>
                                 </div>
                             </div>
+                            <div class="control-group">
+                                <label class="control-label" for="intervalAm">am</label>
+                                <div class="controls">
+                                    <input type="text" id="intervalAm" placeholder="For example: a.m." value="a.m.">
+                                    <span class="help-line label label-success" style="display: none;">&nbsp;Применено!</span>
+                                    <span class="help-block">Устанавливает значение приписки для времени после полудня</span>
+                                </div
                             <div class="control-group">
                                 <label class="control-label" for="intervalExp">exp</label>
                                 <div class="controls">
@@ -310,11 +329,12 @@
 
                         </form>
                     </section>
+
                     <section id="gBuild">
                         <div class="page-header">
                             <h2>Тестирование и сборка</h2>
                         </div>
-                        <p>В проекте используется <a href="/jqTime/test/helper.html">тестирование</a> с помощью qUnit. Пока весь проект не покрыт тестами, но тесты дописываются постоянно.</p>
+                        <p>В проекте используется тестированиес помощью qUnit. Пока весь проект не покрыт тестами, но тесты дописываются постоянно.</p>
                         <p>Разработка проекта ведетcя с методологией Continuous Integration, автоматизированное тестирование работает на <a href="https://travis-ci.org/nim579/jqTime">Travis CI</a>.</p>
                         <p>Для сборки проекта используется Grunt.js.</p>
                     </section>
