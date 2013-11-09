@@ -13,7 +13,7 @@ $.jqTime.modes.interval = (el, options)->
     i %= 86400
 
     b = false
-    
+
     if options.wrap
         if options.iFrom <= options.iTo
             b = options.iTo - i if i >= options.iFrom && i <= options.iTo
@@ -65,3 +65,5 @@ $.jqTime.modes.interval = (el, options)->
     el.jqTimeCurr = i
 
     i = $.jqTime.helper.updater i, options.utc
+
+    return time

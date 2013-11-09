@@ -42,3 +42,5 @@ $.jqTime.modes.current = (el, options)->
     el.jqTimeCurr = i
 
     i = $.jqTime.helper.updater i, options.utc
+
+    return time

@@ -51,3 +51,5 @@ $.jqTime.modes.toggler = (el, options)->
 
     el.jqTimeCurr = i
     i = $.jqTime.helper.updater i, options.utc
+
+    return time
