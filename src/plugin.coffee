@@ -1,6 +1,6 @@
 $.jqTime = {}
 
-$.fn.jqTime = (mode, options, customTime)->
+$.fn.jqTime = (mode, options, callback)->
 
     options = $.extend {
         wrap: false
@@ -41,7 +41,8 @@ $.fn.jqTime = (mode, options, customTime)->
                 
                 clearInterval @jqTimeTimer if @jqTimeTimer?
                 @jqTimeTimer = setInterval =>
-                    $.jqTime.modes[mode].call context, @, options
+                    JSON = $.jqTime.modes[mode].call context, @, options
+                    callback(JSON) if callback? and typeof callback is "function"
                 , 1000
 
 
