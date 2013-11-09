@@ -33,6 +33,12 @@ module.exports = (grunt)->
             app:
                 src: ['<%= pkg.app.root %>**/*.coffee']
 
+        zip:
+            app:
+                cwd: '<%= pkg.app.pub %>'
+                src: ['<%= pkg.app.pub %><%= pkg.app.js %>-<%= pkg.version %>.js', '<%= pkg.app.pub %><%= pkg.app.min %>-<%= pkg.version %>.js', 'README.md']
+                dest: '<%= pkg.app.pub %><%= pkg.app.js %>-<%= pkg.version %>.zip'
+
         qunit:
             files: ['test/*.html']
 
@@ -48,6 +54,7 @@ module.exports = (grunt)->
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-qunit'
+    grunt.loadNpmTasks 'grunt-zip'
   
     grunt.registerTask 'build', 'Build project', (test)->
         if test is 'test'
@@ -56,11 +63,11 @@ module.exports = (grunt)->
 
         else
             grunt.log.write 'Run build...'
-            grunt.task.run ['coffee', 'concat:app', 'uglify', 'version']
+            grunt.task.run ['coffee', 'concat:app', 'uglify', 'version', 'zip', 'cleadBuilds']
   
     grunt.registerTask 'after_test', 'Build project', (test)->
         grunt.log.ok 'Tests passed! Run build...'
-        grunt.task.run ['coffee', 'concat:app', 'uglify', 'version']
+        grunt.task.run ['coffee', 'concat:app', 'uglify', 'version', 'zip', 'cleadBuilds']
   
     coffee = require 'coffee-script'
     path = require 'path'
@@ -83,6 +90,17 @@ module.exports = (grunt)->
         pkg = grunt.config.get 'pkg'
         grunt.file.write 'VERSION', pkg.version + ' ' + grunt.template.today()
         grunt.log.ok 'File version updated'
+
+    grunt.registerTask 'cleadBuilds', 'Clean builds folder', ()->
+        files = grunt.file.expand grunt.config.get('pkg').app.pub + '*.js'
+        files.forEach (file)->
+            try
+                grunt.file.delete file
+                grunt.log.ok 'Removed file: ' + file
+            catch e
+                grunt.log.error 'File' + file + ' not removed'
+
+        grunt.log.ok 'Files cleared at ' + grunt.template.today()
   
     grunt.registerTask 'test', 'grunt test', ()->
         grunt.log.write 'Grunt file finded and no hava errors. Version grunt: ' + grunt.version + '\n'
