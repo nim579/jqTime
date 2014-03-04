@@ -88,3 +88,19 @@ $.jqTime.helper =
             results[results.length] = value if iterator.call context, value, index, list
 
         return results
+
+    getExactTime: (callback)->
+        $.ajax
+            url: 'http://www.timeapi.org/utc/now.json'
+            dataType: 'jsonp'
+            success: (time)->
+                if time.dateString
+                    callback time.dateString
+
+                else
+                    callback null
+
+            error: ->
+                callback null
+
+
