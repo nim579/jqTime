@@ -28,6 +28,7 @@ module.exports = (grunt)->
 
                 files:
                     '<%= pkg.app.pub %><%= pkg.app.min %>-<%= pkg.version %>.js': ['<%= pkg.app.pub %><%= pkg.app.js %>-<%= pkg.version %>.js']
+                    '<%= pkg.app.pub %><%= pkg.app.min %>.js': ['<%= pkg.app.pub %><%= pkg.app.js %>-<%= pkg.version %>.js']
 
         coffee:
             app:
@@ -92,7 +93,7 @@ module.exports = (grunt)->
         grunt.log.ok 'File version updated'
 
     grunt.registerTask 'cleadBuilds', 'Clean builds folder', ()->
-        files = grunt.file.expand grunt.config.get('pkg').app.pub + '*.js'
+        files = grunt.file.expand [grunt.config.get('pkg').app.pub + 'jqTime-*.js', grunt.config.get('pkg').app.pub + 'jqTime.min-*.js']
         files.forEach (file)->
             try
                 grunt.file.delete file

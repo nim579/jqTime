@@ -1,0 +1,34 @@
+{
+  "name": "jqTime",
+  "version": "2.3.2",
+  "homepage": "https://github.com/nim579/jqTime",
+  "authors": [
+    "Nick Iv <studio@nim579.ru>"
+  ],
+  "description": "jQuery time plugin",
+  "main": "app/jqTime.min.js",
+  "moduleType": [
+    "amd",
+    "node"
+  ],
+  "keywords": [
+    "time",
+    "timers",
+    "watches"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "node_modules",
+    "bower_components",
+    "lib",
+    "src",
+    "test",
+    "tests",
+    "**/*.coffee",
+    "**/*.html",
+    "**/*.zip"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.3"
+  }
+}
